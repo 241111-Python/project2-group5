@@ -57,7 +57,7 @@ def show_entry(data: list):
     while True:
         # Display data range and check user selection
         selection = input(
-            f"\nSelect an entry from: 0 - {len(data)}, or type 'q' to return to main options: "
+            f"\nSelect an entry from: 0 - {len(data) - 1}, or type 'q' to return to main options: "
         )
         if selection == "q":
             break

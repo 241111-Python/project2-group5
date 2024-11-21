@@ -40,7 +40,10 @@ def main():
             data = library.read_csv(source_file)
 
         # Options menu
-        options = [f"Unload data: {source_file.split("\\")[1]}", "View individual entry"]
+        options = [
+            f"Unload data: {source_file.split("\\")[1]}",
+            "View individual entry",
+        ]
         choice = view.present_options(options, "OPTIONS")
         if choice == -1:
             continue
