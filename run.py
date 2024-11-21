@@ -3,30 +3,7 @@
 
 # Imports
 import os
-from app import library
-
-
-def process_input(user_input, validation_range):
-    """Processes user input.
-
-    Args:
-        user_input: user command, either a number or 'x' to quit.
-        validation_range: number of files or options
-
-    Returns:
-        status: validity of input
-    """
-    # Quit
-    if user_input.lower() == "x":
-        loop_flag = False
-        exit(0)
-
-    # Check selection
-    if not user_input.isnumeric() or int(user_input) not in range(1, validation_range):
-        print("Selection invalid.")
-        return False
-
-    return True
+from app import library, view
 
 
 def main():
@@ -37,49 +14,40 @@ def main():
     # View an individual entry
     # View a sorted or filtered set of data
 
-    loop_flag = True
     data_dir = "data"
     data = None
 
-    while loop_flag:
+    while True:
         # No data selected
         if not data:
             # List files from data directory
             data_files = os.listdir(data_dir)
-            print("\nFILES:")
-            [print("{}). {}".format(t[0] + 1, t[1])) for t in enumerate(data_files)]
-            print()
 
-            # Check selection
-            selection = input("Select datasource, or type x to quit: ")
-            if not process_input(selection, len(data_files) + 1):
+            choice = view.present_options(data_files, "FILES")
+            if choice == -1:
                 continue
 
-            # Verify file
-            source_file = os.path.join(data_dir, data_files[int(selection) - 1])
+            # Verify file selected
+            source_file = os.path.join(data_dir, data_files[int(choice)])
             if not os.path.exists(source_file):
-                print("File not found.")
+                print("Error: File not found.")
                 continue
             if not source_file.endswith(".csv"):
-                print("File not valid.")
+                print("Error: File not valid.")
                 continue
 
             # Read in data
             data = library.read_csv(source_file)
-            continue
 
         # Options menu
-        print("\nOPTIONS:")
-        print("1). Unload data")
-
-        # Check selection
-        selection = input("Select option, or type x to quit: ")
-        if not process_input(selection, 3):
+        options = ["Unload data", "View individual entry"]
+        choice = view.present_options(options, "OPTIONS")
+        if choice == -1:
             continue
 
         # Execute option
-        match selection:
-            case "1":
+        match choice:
+            case 0:
                 data = None  # unload source
                 print("Unloaded source. Please select a new file.")
             case _:
