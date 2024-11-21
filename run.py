@@ -50,7 +50,7 @@ def main():
                 data = None  # unload source
                 print("Unloaded source. Please select a new file.")
             case 1:
-                pass
+                view.show_entry(data)
             case _:
                 # default
                 pass

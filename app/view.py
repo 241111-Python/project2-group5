@@ -1,5 +1,8 @@
 # Functionality for handling user input and presenting options
 
+# Imports
+import pprint
+
 
 def process_input(user_input: str, validation_range: int) -> bool:
     """Processes user input.
@@ -43,3 +46,22 @@ def present_options(options: list, options_name: str) -> int:
         return -1
 
     return int(selection)
+
+
+def show_entry(data: list):
+    """Displays a individual entry from data.
+
+    Args:
+        data: current data source.
+    """
+    while True:
+        # Display data range and check user selection
+        selection = input(
+            f"\nSelect an entry from: 0 - {len(data)}, or type 'q' to return to main options: "
+        )
+        if selection == "q":
+            break
+        if not process_input(selection, len(data)):
+            continue
+
+        pprint.pprint(data[int(selection)])
