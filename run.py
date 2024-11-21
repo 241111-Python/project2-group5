@@ -22,13 +22,12 @@ def main():
         if not data:
             # List files from data directory
             data_files = os.listdir(data_dir)
-
             choice = view.present_options(data_files, "FILES")
             if choice == -1:
                 continue
 
             # Verify file selected
-            source_file = os.path.join(data_dir, data_files[int(choice)])
+            source_file = os.path.join(data_dir, data_files[choice])
             if not os.path.exists(source_file):
                 print("Error: File not found.")
                 continue
@@ -50,6 +49,8 @@ def main():
             case 0:
                 data = None  # unload source
                 print("Unloaded source. Please select a new file.")
+            case 1:
+                pass
             case _:
                 # default
                 pass

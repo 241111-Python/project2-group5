@@ -1,7 +1,7 @@
 # Functionality for handling user input and presenting options
 
 
-def process_input(user_input, validation_range):
+def process_input(user_input: str, validation_range: int) -> bool:
     """Processes user input.
 
     Args:
@@ -9,7 +9,7 @@ def process_input(user_input, validation_range):
         validation_range: number of files or options.
 
     Returns:
-        status: validity of input.
+        status: validity of input as boolean.
     """
     # Quit
     if user_input.lower() == "x":
@@ -23,15 +23,15 @@ def process_input(user_input, validation_range):
     return True
 
 
-def present_options(options, options_name) -> int:
+def present_options(options: list, options_name: str) -> int:
     """Presents a list of options to user.
 
     Args:
         options: list of strings representing possible options.
-        options_name: describe the type of option
+        options_name: describes the type of option.
 
     Returns:
-        selection: user selection, or '-1' if invalid
+        selection: user selection as int, or '-1' if invalid.
     """
     # List options
     print(f"\n{options_name}:")
