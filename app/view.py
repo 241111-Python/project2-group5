@@ -64,4 +64,4 @@ def show_entry(data: list):
         if not process_input(selection, len(data)):
             continue
 
-        pprint.pprint(data[int(selection)])
+        print(data[int(selection)])
