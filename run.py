@@ -16,6 +16,7 @@ def main():
 
     data_dir = "data"
     data = None
+    source_file = None
 
     while True:
         # No data selected
@@ -39,7 +40,7 @@ def main():
             data = library.read_csv(source_file)
 
         # Options menu
-        options = ["Unload data", "View individual entry"]
+        options = [f"Unload data: {source_file.split("\\")[1]}", "View individual entry"]
         choice = view.present_options(options, "OPTIONS")
         if choice == -1:
             continue
