@@ -2,7 +2,7 @@
 
 # Imports
 import csv
-from app import model
+import model
 
 def read_csv(file_name):
     """Reads csv file and converts into a list of dictionaries, each representing an entry.

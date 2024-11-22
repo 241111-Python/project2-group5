@@ -1,7 +1,6 @@
 # Functionality for handling user input and presenting options
 
 # Imports
-import pprint
 
 
 def process_input(user_input: str, validation_range: int) -> bool:

@@ -3,7 +3,7 @@
 
 # Imports
 import os
-from app import library, view
+import library, view
 
 
 def main():
