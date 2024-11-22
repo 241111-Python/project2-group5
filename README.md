@@ -1,1 +1,3 @@
-# project2-group5
+# Project 2 - Global Analysis of Banana Quality and Characteristics:
+
+*Description:* An interactive Python project that analyzes a dataset of a sample of 1,000 bananas harvested from eight different countries across the world in 2023. The user can access statistics on an individual banana or a set of bananas filtered by selected criteria through a terminal-based interface. The program also generates a two-part report containing summary statistics and key facts about the data. The first section presents a comparison of bananas divided by origin and type. The second section investigates the relationship between a banana’s physical characteristics and environmental conditions, such as the level of rainfall it received.
