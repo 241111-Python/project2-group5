@@ -16,41 +16,44 @@ def main():
 
     data_dir = "data"
     data = None
-    source_file = None
+    source_path = None
 
     while True:
         # No data selected
         if not data:
             # List files from data directory
             data_files = os.listdir(data_dir)
-            choice = view.present_options(data_files, "FILES")
-            if choice == -1:
-                continue
+
+            # Check data exists in data folder
+            if len(data_files) == 0:
+                print("Error: No files found in data/")
+                exit(0)
+
+            choice = view.select_option_or_quit(data_files, "FILES")
 
             # Verify file selected
-            source_file = os.path.join(data_dir, data_files[choice])
-            if not os.path.exists(source_file):
+            source_path = os.path.join(data_dir, data_files[choice])
+            if not os.path.exists(source_path):
                 print("Error: File not found.")
                 continue
-            if not source_file.endswith(".csv"):
+            if not source_path.endswith(".csv"):
                 print("Error: File not valid.")
                 continue
 
             # Read in data
-            data = library.read_csv(source_file)
+            data = library.read_csv(source_path)
+            source_file = source_path.split("\\")[1]
 
         # Options menu
         options = [
-            f"Unload data: {source_file.split("\\")[1]}",
+            f"Unload data: {source_file}",
             "View individual entry",
             "View sorted entries",
             "View filtered entries",
             "Generate analysis report",
-            "View report"
+            "View report",
         ]
-        choice = view.present_options(options, "OPTIONS")
-        if choice == -1:
-            continue
+        choice = view.select_option_or_quit(options, "OPTIONS")
 
         # Execute option
         match choice:
@@ -65,7 +68,7 @@ def main():
             case 3:
                 pass
             case 4:
-                analysis.generate_analysis(data)
+                analysis.generate_analysis(data, source_file)
             case 5:
                 analysis.display_report()
             case _:
