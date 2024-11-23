@@ -3,7 +3,7 @@
 
 # Imports
 import os
-import library, view
+import library, view, analysis
 
 
 def main():
@@ -43,6 +43,10 @@ def main():
         options = [
             f"Unload data: {source_file.split("\\")[1]}",
             "View individual entry",
+            "View sorted entries",
+            "View filtered entries",
+            "Generate analysis report",
+            "View report"
         ]
         choice = view.present_options(options, "OPTIONS")
         if choice == -1:
@@ -55,6 +59,15 @@ def main():
                 print("Unloaded source. Please select a new file.")
             case 1:
                 view.show_entry(data)
+            # TO-DO
+            case 2:
+                pass
+            case 3:
+                pass
+            case 4:
+                analysis.generate_analysis(data)
+            case 5:
+                analysis.display_report()
             case _:
                 # default
                 pass
