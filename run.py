@@ -42,7 +42,7 @@ def main():
 
             # Read in data
             data = library.read_csv(source_path)
-            source_file = source_path.split("\\")[1]
+            source_file = source_path.split(os.sep)[1]
 
         # Options menu
         options = [

@@ -48,7 +48,7 @@ def generate_analysis(data: list, dataset_name):
         os.makedirs("reports")
         print("Created reports folder.")
 
-    new_report = os.path.join(report_folder, f"report_{dataset_name.split(".")[0]}.md")
+    new_report = os.path.join(report_folder, f"report_{dataset_name.split('.')[0]}.md")
 
     # Clear old report
     if os.path.exists(new_report):
