@@ -2,7 +2,6 @@
 # Which can be viewed either in terminal or as a markdown file
 
 # Imports
-
 import os
 from mdprint import mdprint
 from itertools import groupby, tee
@@ -55,34 +54,46 @@ def generate_ranking(f, data: list, indices: list, values: list):
     mdprint("\n", file=f)
 
 
-def generate_correlations(f, data: pd.DataFrame, variety: str, region: str):
+def generate_correlations(
+    f, data: pd.DataFrame, figures: str, variety: str, region: str
+):
     # Filter
     data = data.loc[data["variety"] == variety]
     # data = data.loc[data['region'] == region]
 
+    file_path = os.path.join(figures, f"heatmap_{variety.replace(" ", "_")}.png")
+
     # Generate heatmap
     corr = data.corr(numeric_only=True)
-    # sns.heatmap(corr, annot=True, fmt=".2f", cbar=False)
-    # plt.title(f"Correlations for {variety} Bananas")
-    # plt.xticks(rotation=60)
-    # plt.show()
+    sns.heatmap(corr, annot=True, fmt=".2f", cbar=False)
+    plt.title(f"Correlations for {variety} Bananas")
+    plt.tight_layout()
+    plt.savefig(file_path)
+    plt.close()
 
     # Generate basic markdown
     corr.columns = [col[:8] for col in corr.columns]
     mdprint("\n", file=f)
     mdprint(f"Correlations for {variety} Bananas", heading=3, file=f)
     mdprint(corr.round(2).to_markdown(), file=f)
+    mdprint(
+        f"\n![title](..\\{file_path})",
+        file=f,
+    )
 
 
 def generate_analysis(data: list, dataset_name):
+    # Build paths
+    new_report = os.path.join(report_folder, f"report_{dataset_name.split('.')[0]}.md")
+    new_figs = os.path.join(figures_folder, f"figures_{dataset_name.split('.')[0]}")
+
     # Create reports and figures folders
-    for f in ["reports"]:
+    for f in [report_folder, figures_folder]:
         if not os.path.exists(f):
             os.makedirs(f)
             print(f"Created {f} folder.")
-
-    # Build report path
-    new_report = os.path.join(report_folder, f"report_{dataset_name.split('.')[0]}.md")
+    if not os.path.exists(new_figs):
+        os.makedirs(new_figs)
 
     # Clear old report
     if os.path.exists(new_report):
@@ -125,9 +136,21 @@ def generate_analysis(data: list, dataset_name):
             ["region"],
             ["altitude_m", "rainfall_mm", "soil_nitrogen_ppm", "tree_age_years"],
         )
+        generate_ranking(
+            f,
+            data,
+            ["quality_category"],
+            [
+                "quality_score",
+                "altitude_m",
+                "rainfall_mm",
+                "soil_nitrogen_ppm",
+                "tree_age_years",
+            ],
+        )
         df = pd.DataFrame([vars(d) for d in data])
         for v in df["variety"].unique():
-            generate_correlations(f, df, v, None)
+            generate_correlations(f, df, new_figs, v, None)
 
     print(f"Report generated in {new_report}")
 

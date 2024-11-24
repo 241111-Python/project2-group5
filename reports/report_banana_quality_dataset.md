@@ -89,6 +89,16 @@
 | ['Philippines'] |       692.55 |       1955.68 |              102.28 |            10.76 |
 
 
+### Ranking ['quality_category'] by quality_score
+
+| Type           |   quality_score |   altitude_m |   rainfall_mm |   soil_nitrogen_ppm |   tree_age_years |
+|----------------|-----------------|--------------|---------------|---------------------|------------------|
+| ['Premium']    |            3.64 |       659.44 |       1943.05 |              104.74 |            11.3  |
+| ['Good']       |            2.9  |       738.38 |       1992.19 |              102.81 |            11.06 |
+| ['Processing'] |            2.11 |       715.42 |       1954.99 |              105.4  |            10.69 |
+| ['Unripe']     |            1.32 |       703.13 |       2016.52 |              109.2  |            11.08 |
+
+
 
 
 ### Correlations for Manzano Bananas
@@ -105,6 +115,8 @@
 | rainfall_mm        |      -0.04 |      -0.02 |      -0.09 |      -0.04 |       0.09 |      -0.18 |       0.02 |      -0.18 |       1    |      -0.05 |
 | soil_nitrogen_ppm  |       0.06 |      -0.03 |      -0.01 |      -0.13 |       0.15 |       0.06 |      -0.07 |       0.08 |      -0.05 |       1    |
 
+![title](..\figures\figures_banana_quality_dataset\heatmap_Manzano.png)
+
 
 ### Correlations for Plantain Bananas
 |                    |   quality_ |   ripeness |   sugar_co |   firmness |   length_c |   weight_g |   tree_age |   altitude |   rainfall |   soil_nit |
@@ -119,6 +131,8 @@
 | altitude_m         |      -0.02 |      -0    |       0.03 |      -0.09 |      -0.06 |       0.05 |       0.05 |       1    |      -0.05 |       0.09 |
 | rainfall_mm        |      -0.01 |      -0.13 |       0.03 |      -0.01 |       0.15 |      -0.13 |      -0.12 |      -0.05 |       1    |      -0.01 |
 | soil_nitrogen_ppm  |      -0.13 |      -0.06 |       0.03 |      -0.01 |      -0.24 |      -0.09 |      -0.03 |       0.09 |      -0.01 |       1    |
+
+![title](..\figures\figures_banana_quality_dataset\heatmap_Plantain.png)
 
 
 ### Correlations for Burro Bananas
@@ -135,6 +149,8 @@
 | rainfall_mm        |       0.18 |       0.06 |       0.18 |      -0.05 |       0.03 |      -0.12 |      -0.09 |       0    |       1    |       0.13 |
 | soil_nitrogen_ppm  |       0.07 |      -0.11 |       0.09 |      -0.01 |       0.19 |       0.02 |       0.05 |      -0.02 |       0.13 |       1    |
 
+![title](..\figures\figures_banana_quality_dataset\heatmap_Burro.png)
+
 
 ### Correlations for Red Dacca Bananas
 |                    |   quality_ |   ripeness |   sugar_co |   firmness |   length_c |   weight_g |   tree_age |   altitude |   rainfall |   soil_nit |
@@ -149,6 +165,8 @@
 | altitude_m         |       0.09 |       0.05 |       0.07 |      -0.01 |       0.01 |       0.08 |      -0.02 |       1    |      -0.03 |      -0.15 |
 | rainfall_mm        |       0.12 |       0.07 |       0.09 |      -0    |       0.02 |       0.22 |       0.09 |      -0.03 |       1    |       0.08 |
 | soil_nitrogen_ppm  |      -0.12 |      -0.07 |      -0.13 |       0.15 |       0.05 |      -0.04 |      -0.07 |      -0.15 |       0.08 |       1    |
+
+![title](..\figures\figures_banana_quality_dataset\heatmap_Red_Dacca.png)
 
 
 ### Correlations for Fehi Bananas
@@ -165,6 +183,8 @@
 | rainfall_mm        |      -0.15 |      -0.06 |      -0.17 |      -0.07 |      -0.04 |      -0.03 |       0.08 |      -0.11 |       1    |      -0.09 |
 | soil_nitrogen_ppm  |      -0    |       0.08 |       0.03 |       0.04 |      -0.13 |       0.03 |       0.06 |       0.06 |      -0.09 |       1    |
 
+![title](..\figures\figures_banana_quality_dataset\heatmap_Fehi.png)
+
 
 ### Correlations for Lady Finger Bananas
 |                    |   quality_ |   ripeness |   sugar_co |   firmness |   length_c |   weight_g |   tree_age |   altitude |   rainfall |   soil_nit |
@@ -179,6 +199,8 @@
 | altitude_m         |       0.11 |       0.1  |       0.04 |       0.02 |       0.06 |       0.1  |       0    |       1    |      -0.03 |      -0.01 |
 | rainfall_mm        |       0.1  |       0.15 |       0.05 |       0.05 |      -0.1  |       0.06 |       0.15 |      -0.03 |       1    |       0.16 |
 | soil_nitrogen_ppm  |      -0.14 |      -0.12 |      -0.02 |       0.02 |      -0.06 |      -0.15 |       0.14 |      -0.01 |       0.16 |       1    |
+
+![title](..\figures\figures_banana_quality_dataset\heatmap_Lady_Finger.png)
 
 
 ### Correlations for Blue Java Bananas
@@ -195,6 +217,8 @@
 | rainfall_mm        |      -0.06 |      -0    |      -0.13 |       0.23 |       0.05 |      -0.09 |       0.01 |      -0.02 |       1    |      -0.08 |
 | soil_nitrogen_ppm  |       0.13 |      -0.07 |       0.21 |      -0.06 |       0.1  |       0.18 |       0.14 |      -0.11 |      -0.08 |       1    |
 
+![title](..\figures\figures_banana_quality_dataset\heatmap_Blue_Java.png)
+
 
 ### Correlations for Cavendish Bananas
 |                    |   quality_ |   ripeness |   sugar_co |   firmness |   length_c |   weight_g |   tree_age |   altitude |   rainfall |   soil_nit |
@@ -209,3 +233,5 @@
 | altitude_m         |      -0.11 |      -0.05 |      -0.2  |      -0.02 |       0.13 |      -0.12 |      -0.03 |       1    |       0.03 |      -0.05 |
 | rainfall_mm        |       0.04 |       0.04 |       0.03 |       0.07 |       0.01 |       0    |      -0.03 |       0.03 |       1    |       0.04 |
 | soil_nitrogen_ppm  |      -0.16 |      -0.16 |      -0.06 |       0.03 |       0.06 |       0.03 |      -0.09 |      -0.05 |       0.04 |       1    |
+
+![title](..\figures\figures_banana_quality_dataset\heatmap_Cavendish.png)
