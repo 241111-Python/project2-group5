@@ -272,12 +272,12 @@ def filtered_entries(data, attribute, asc):
     avg_attribute = {country: sum(values) / len(values) for country, values in country_data.items()}
 
     if (asc == 'asc'):
-        sorted_avg_attribute = sorted(avg_attribute.items(), key=lambda x: x[1], reverse=True)
-        print(f"\nAverage {attribute.replace('_', ' ')} from highest to lowest:")
+        sorted_avg_attribute = sorted(avg_attribute.items(), key=lambda x: x[1])
+        print(f"\nAverage {attribute.replace('_', ' ')} from lowest to highest:")
         for country, avg_value in sorted_avg_attribute:
             print(f"{country}: {avg_value:.2f}")
     else:
-        sorted_avg_attribute = sorted(avg_attribute.items(), key=lambda x: x[1])
-        print(f"\nAverage {attribute.replace('_', ' ')} from lowest to highest:")
+        sorted_avg_attribute = sorted(avg_attribute.items(), key=lambda x: x[1], reverse=True)
+        print(f"\nAverage {attribute.replace('_', ' ')} from highest to lowest:")
         for country, avg_value in sorted_avg_attribute:
             print(f"{country}: {avg_value:.2f}")
