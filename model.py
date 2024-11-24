@@ -1,5 +1,9 @@
 # Banana representation
 
+# Imports
+import pprint
+
+
 class Banana:
 
     def __init__(self, **kwargs):
@@ -20,7 +24,5 @@ class Banana:
         self.soil_nitrogen_ppm = float(kwargs.get("soil_nitrogen_ppm"))
 
     def __str__(self):
-        # TODO: Extend string representation with more data
-        return f"{self.quality_category} quality {self.ripeness_category} {self.variety} from {self.region}"
-
-    
+        # Output banana object in dictionary-style formatted with pretty-print
+        return pprint.pformat(vars(self))

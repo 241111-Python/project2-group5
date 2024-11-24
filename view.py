@@ -72,7 +72,9 @@ def show_entry(data: list):
         if not process_input(selection, len(data)):
             continue
 
-        print(data[int(selection)])
+        entry = data[int(selection)]
+        print(f"\n{entry.quality_category} quality {entry.ripeness_category} {entry.variety} from {entry.region}:")
+        print(entry)
 
 
 def select_options_sorted(data):
