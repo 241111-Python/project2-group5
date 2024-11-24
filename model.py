@@ -22,3 +22,5 @@ class Banana:
     def __str__(self):
         # TODO: Extend string representation with more data
         return f"{self.quality_category} quality {self.ripeness_category} {self.variety} from {self.region}"
+
+    

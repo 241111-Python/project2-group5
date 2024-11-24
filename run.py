@@ -23,7 +23,7 @@ def main():
         if not data:
             # List files from data directory
             data_files = os.listdir(data_dir)
-            choice = view.present_options(data_files, "FILES")
+            choice = view.present_options(data_files, "DATASETS")
             if choice == -1:
                 continue
 
@@ -43,6 +43,11 @@ def main():
         options = [
             f"Unload data: {source_file.split("\\")[1]}",
             "View individual entry",
+            "Quality Bananas",
+            "Most Ripe Bananas", # Going to add category of ripeness to it soon
+            "Sweetest Bananas",
+            "Firmness of Bananas",
+            "Longest Bananas",
         ]
         choice = view.present_options(options, "OPTIONS")
         if choice == -1:
@@ -55,8 +60,26 @@ def main():
                 print("Unloaded source. Please select a new file.")
             case 1:
                 view.show_entry(data)
+            case 2:
+                view.show_quality_entries(data)
+            case 3:
+                view.show_ripeness_entries(data)
+            case 4:
+                view.show_sugar_entries(data)
+            case 5:
+                view.show_firmness_entries(data)
+            case 6:
+                view.show_length_entries(data)
+            case 7:
+                print("placeholder")
+            case 8:
+                print("placeholder")
+            case 7:
+                print("placeholder")
+            case 8:
+                print("placeholder")
             case _:
-                # default
+                # default     
                 pass
 
 
