@@ -5,7 +5,7 @@
 
 import os
 from mdprint import mdprint
-from itertools import groupby
+from itertools import groupby, tee
 import statistics as stats
 from tabulate import tabulate
 import view
@@ -13,30 +13,36 @@ import view
 report_folder = "reports"
 
 
-def generate_ranking(f, data: list, index: str, values: list):
+def generate_ranking(f, data: list, indices: list, values: list):
     # Sort data by desired group
-    dataset = sorted(data, key=lambda x: getattr(x, index))
+    dataset = sorted(data, key=lambda x: [getattr(x, i) for i in indices])
 
     # Group data and get average of desired value
     ranking = []
-    for key, group in groupby(dataset, lambda x: getattr(x, index)):
+    for key, group in groupby(dataset, lambda x: [getattr(x, i) for i in indices]):
+        # Ignore group if it makes up 1.5% of data or less
+        iter_1, iter_2 = tee(group)
+        if (len(list(iter_1))) <= (len(data) * 0.015):
+            continue
+
+        # Calculate column value and append to current row
         entry = [key]
-        elements = [[] for _ in range(len(values))]
+        columns = [[] for _ in range(len(values))]
 
-        for b in group:
+        for b in iter_2:
             for i, v in enumerate(values):
-                elements[i].append(getattr(b, v))
+                columns[i].append(getattr(b, v))
 
-        for e in elements:
+        for e in columns:
             entry.append(round(stats.mean(e), 2))
 
         ranking.append(entry)
 
     # Print ranking in markdown format
     ranking.sort(key=lambda x: x[1], reverse=True)
-    mdprint(f"Ranking of {index}s\n", heading=3, file=f)
+    mdprint(f"Ranking\n", heading=3, file=f)
     mdprint(
-        tabulate(ranking, headers=[index, *values], tablefmt="github"),
+        tabulate(ranking, headers=["Type", *values], tablefmt="github"),
         file=f,
     )
     mdprint("\n", file=f)
@@ -62,7 +68,12 @@ def generate_analysis(data: list, dataset_name):
         )
         mdprint("Comparison of Bananas by Origin and Type\n", heading=2, file=f)
 
-        generate_ranking(f, data, "region", ["quality_score", "ripeness_index"])
+        generate_ranking(
+            f,
+            data,
+            ["region", "variety"],
+            ["quality_score", "ripeness_index", "sugar_content_brix"],
+        )
 
     print(f"Report generated in {new_report}")
 
@@ -75,6 +86,14 @@ def display_report():
     while True:
         # List files from report directory
         data_files = os.listdir(report_folder)
+
+        # Don't list options if only one report exists
+        if len(data_files) == 1:
+            print()
+            with open(os.path.join(report_folder, data_files[0]), "r") as f:
+                print(*[row for row in f.readlines()])
+            return
+
         view.present_options(data_files, "FILES")
 
         # check user selection
