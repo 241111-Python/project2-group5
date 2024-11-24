@@ -47,11 +47,8 @@ def main():
         options = [
             f"Unload data: {source_file}",
             "View individual entry",
-            "Quality Bananas",
-            "Most Ripe Bananas", # Going to add category of ripeness to it soon
-            "Sweetest Bananas",
-            "Firmness of Bananas",
-            "Longest Bananas",
+            "View Sorted/Filtered Analysis",
+            "View Comprehensive Analysis",
             "Generate analysis report",
             "View report"
         ]
@@ -59,27 +56,21 @@ def main():
 
         # Execute option
         match choice:
-            case 0:
+            case 0: 
                 data = None  # unload source
                 print("Unloaded source. Please select a new file.")
-            case 1:
+            case 1: # Shows individual entries based off __str__ method @ Banana class
                 view.show_entry(data)
-            case 2:
-                view.show_quality_entries(data)
-            case 3:
-                view.show_ripeness_entries(data)
+            case 2: # Shows filtered/sorted analysis
+                view.select_options_sorted(data)
+            case 3: # For the more advanced analysis 
+                pass
             case 4:
-                view.show_sugar_entries(data)
-            case 5:
-                view.show_firmness_entries(data)
-            case 6:
-                view.show_length_entries(data)
-            case 7:
                 analysis.generate_analysis(data, source_file)
-            case 8:
+            case 5:
                 analysis.display_report()
             case _:
-                # default     
+                # default
                 pass
 
 

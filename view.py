@@ -56,7 +56,6 @@ def select_option_or_quit(options: list, options_name: str) -> int:
         if process_input(selection, len(options)):
             return int(selection)
 
-
 def show_entry(data: list):
     """Displays a individual entry from data.
 
@@ -75,6 +74,44 @@ def show_entry(data: list):
 
         print(data[int(selection)])
 
+
+def select_options_sorted(data):
+    """Displays the sorted choices for bananas.
+
+    Args:
+        data: current data source.
+    """
+
+    
+
+    options = [
+        "Quality Bananas",
+        "Most Ripe Bananas", # Going to add category of ripeness to it soon
+        "Sweetest Bananas",
+        "Firmness of Bananas",
+        "Longest Bananas"
+    ]
+
+    while True:
+        present_options(options, "SELECT FROM THE LIST OF SORTED ANALYSIS - ")
+        choice = int(input("\nSelect option, or type 'q' to go back: "))
+        match choice:
+            case 0:
+                show_quality_entries(data)
+            case 1:
+                show_ripeness_entries(data)
+            case 2:
+                show_sugar_entries(data)
+            case 3:
+                show_firmness_entries(data)
+            case 4:
+                show_length_entries(data)
+            case _:
+                print(choice)     
+                pass
+
+        if choice == 'q':
+            break
 
 
 def show_quality_entries(data):
