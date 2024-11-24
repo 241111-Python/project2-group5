@@ -77,7 +77,7 @@ def generate_correlations(
     mdprint(f"Correlations for {variety} Bananas", heading=3, file=f)
     mdprint(corr.round(2).to_markdown(), file=f)
     mdprint(
-        f"\n![title](..\\{file_path})",
+        f"\n![title](..\\{file_path})".replace("\\", "/"),
         file=f,
     )
 
