@@ -161,3 +161,123 @@ def show_length_entries(data):
     print("\nAverage length from highest to lowest: ")
     for country, length in avg_length.items():
         print(f"{country}: {length:.2f}")
+        
+        
+# Harvest_date - WORKING ON BY VITALI
+# age of trees - WORKING ON BY VITALI
+# altitude - WORKING ON BY VITALI
+# Rainfall - WORKING ON BY VITALI
+# soil nitrogen per ppm - WORKING ON BY VITALI
+
+# def show_harvest_date(data):
+#     """Displays the length of banana based off the region from top to bottom.
+
+#     Args:
+#         data: current data source.
+#     """
+#     country_data=defaultdict(list)
+
+#     for r in data:
+#         country_data[r.region].append(float(r.harvest_date)) #
+
+#     avg_length={country: sum(length) / len(length) for country, length in country_data.items()}
+
+#     print("\nAverage length from highest to lowest: ")
+#     for country, length in avg_length.items():
+#         print(f"{country}: {length:.2f}")
+        
+def show_tree_age_years(data):
+    """Displays the length of banana based off the region from top to bottom.
+
+    Args:
+        data: current data source.
+    """
+    country_data=defaultdict(list)
+
+    for r in data:
+        country_data[r.region].append(float(r.tree_age_years)) #
+
+    avg_length={country: sum(length) / len(length) for country, length in country_data.items()}
+
+    print("\nAverage length from highest to lowest: ")
+    for country, length in avg_length.items():
+        print(f"{country}: {length:.2f}")
+        
+def show_altitude_m(data):
+    """Displays the length of banana based off the region from top to bottom.
+
+    Args:
+        data: current data source.
+    """
+    country_data=defaultdict(list)
+
+    for r in data:
+        country_data[r.region].append(float(r.altitude_m)) #
+
+    avg_length={country: sum(length) / len(length) for country, length in country_data.items()}
+
+    print("\nAverage length from highest to lowest: ")
+    for country, length in avg_length.items():
+        print(f"{country}: {length:.2f}")
+        
+        
+def show_rainfall_mm(data):
+    """Displays the length of banana based off the region from top to bottom.
+
+    Args:
+        data: current data source.
+    """
+    country_data=defaultdict(list)
+
+    for r in data:
+        country_data[r.region].append(float(r.rainfall_mm)) #
+
+    avg_length={country: sum(length) / len(length) for country, length in country_data.items()}
+
+    print("\nAverage length from highest to lowest: ")
+    for country, length in avg_length.items():
+        print(f"{country}: {length:.2f}")
+        
+        
+def show_soil_nitrogen_ppm(data):
+    """Displays the length of banana based off the region from top to bottom.
+
+    Args:
+        data: current data source.
+    """
+    country_data=defaultdict(list)
+
+    for r in data:
+        country_data[r.region].append(float(r.soil_nitrogen_ppm)) #
+
+    avg_length={country: sum(length) / len(length) for country, length in country_data.items()}
+
+    print("\nAverage length from highest to lowest: ")
+    for country, length in avg_length.items():
+        print(f"{country}: {length:.2f}")        
+
+def filtered_entries(data, attribute, asc):
+
+    invalid_attributes = {"quality_category", "harvest_date", "ripeness_category", "variety"}
+    if attribute in invalid_attributes:
+        print(f"Invalid attribute '{attribute}'.")
+        return
+
+    country_data = defaultdict(list)
+    for entry in data:
+        value = float(getattr(entry, attribute))
+        country_data[entry.region].append(value)
+
+
+    avg_attribute = {country: sum(values) / len(values) for country, values in country_data.items()}
+
+    if (asc == 'asc'):
+        sorted_avg_attribute = sorted(avg_attribute.items(), key=lambda x: x[1], reverse=True)
+        print(f"\nAverage {attribute.replace('_', ' ')} from highest to lowest:")
+        for country, avg_value in sorted_avg_attribute:
+            print(f"{country}: {avg_value:.2f}")
+    else:
+        sorted_avg_attribute = sorted(avg_attribute.items(), key=lambda x: x[1])
+        print(f"\nAverage {attribute.replace('_', ' ')} from lowest to highest:")
+        for country, avg_value in sorted_avg_attribute:
+            print(f"{country}: {avg_value:.2f}")
