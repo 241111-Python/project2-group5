@@ -375,3 +375,20 @@ def filtered_entries(data, attribute, asc):
         print(f"\nAverage {attribute.replace('_', ' ')} from highest to lowest:")
         for country, avg_value in sorted_avg_attribute:
             print(f"{country}: {avg_value:.2f}")
+            
+def length_weight(data,attribute):
+    grouped_data = defaultdict(list)
+    
+    for item in data:
+        key = getattr(item, attribute) 
+        value = item.length_cm / item.weight_g  
+        grouped_data[key].append(value)
+    
+    group = {group: sum(value) / len(value) for group, value in grouped_data.items()}
+    
+    values = sorted(group.items(), key=lambda x: x[1], reverse=True)
+    
+    print(f"\nAverage Length/Weight grouped by {attribute.replace('_', ' ')}:")
+    for group, avg_ratio in values:
+        print(f"{group}: {avg_ratio:.4f}")
+
