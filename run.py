@@ -56,6 +56,7 @@ def main(auto=False):
         options = [
             f"Unload Data: {source_file}",
             "View Entry",
+            "View Best / Worst Entries",
             "View Sorted/Filtered Analysis",
             "View Comprehensive Analysis",
             "Generate Report",
@@ -70,13 +71,15 @@ def main(auto=False):
                 print("Unloaded source. Please select a new file.")
             case 1:  # Shows individual entries based off __str__ method @ Banana class
                 view.show_entry(data)
-            case 2:  # Shows filtered/sorted analysis
+            case 2:  # Shows highest and lowest entries for a given attribute
+                view.show_best_worst(data)
+            case 3:  # Shows filtered/sorted analysis
                 view.select_options_sorted(data)
-            case 3:  # For the more advanced analysis
+            case 4:  # For the more advanced analysis
                 pass
-            case 4:
-                analysis.generate_analysis(data, source_file)
             case 5:
+                analysis.generate_analysis(data, source_file)
+            case 6:
                 analysis.display_report()
             case _:
                 # default

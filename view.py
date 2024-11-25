@@ -56,6 +56,17 @@ def select_option_or_quit(options: list, options_name: str) -> int:
         if process_input(selection, len(options)):
             return int(selection)
 
+
+def print_entry(e):
+    """Prints a banana object and header with short description.
+
+    Args:
+        e: Banana entry.
+    """
+    print(f"\n{e.quality_category} quality {e.ripeness_category} {e.variety} from {e.region}:")
+    print(e)
+
+
 def show_entry(data: list):
     """Displays a individual entry from data.
 
@@ -72,9 +83,53 @@ def show_entry(data: list):
         if not process_input(selection, len(data)):
             continue
 
-        entry = data[int(selection)]
-        print(f"\n{entry.quality_category} quality {entry.ripeness_category} {entry.variety} from {entry.region}:")
-        print(entry)
+        print_entry(data[int(selection)])
+
+
+def show_best_worst(data: list):
+    """Displays best and worst entries for a given attribute.
+
+    Args:
+        data: current data source.
+    """
+
+    attributes = [
+        "quality_score",
+        "ripeness_index",
+        "sugar_content_brix",
+        "firmness_kgf",
+        "length_cm",
+        "weight_g",
+        "tree_age_years",
+        "altitude_m",
+        "rainfall_mm",
+        "soil_nitrogen_ppm"
+    ]
+
+    while True:
+        # Display possible attributes and check user selection
+        present_options(attributes, "ATTRIBUTES")
+        selection = input(
+            f"\nSelect an attribute from: 0 - {len(attributes)}, or type 'q' to return to main options: "
+        )
+        if selection == "q":
+            break
+        if not process_input(selection, len(attributes)):
+            continue
+
+        # Sort data on attribute
+        attrb = attributes[int(selection)]
+        data_sorted = sorted(data, key=lambda x: getattr(x, attrb), reverse=True)
+
+        # Top 3
+        print(f"---TOP 3: ({attrb})---")
+        for e in data_sorted[:3]:
+            print_entry(e)
+
+        # Worst 3
+        print(f"\n---BOTTOM 3: ({attrb})---")
+        for e in data_sorted[-3:]:
+            print_entry(e)
 
 
 def select_options_sorted(data):
