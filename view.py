@@ -2,7 +2,7 @@
 
 # Imports
 from collections import defaultdict
-
+import numpy as np
 def process_input(user_input: str, validation_range: int) -> bool:
     """Processes user input.
 
@@ -350,7 +350,7 @@ def show_soil_nitrogen_ppm(data):
     for country, length in avg_length.items():
         print(f"{country}: {length:.2f}")        
 
-def filtered_entries(data, attribute, asc):
+def filtered_entries(data, attribute, order='asc'):
 
     invalid_attributes = {"quality_category", "harvest_date", "ripeness_category", "variety"}
     if attribute in invalid_attributes:
@@ -358,14 +358,14 @@ def filtered_entries(data, attribute, asc):
         return
 
     country_data = defaultdict(list)
-    for entry in data:
-        value = float(getattr(entry, attribute))
-        country_data[entry.region].append(value)
+    for item in data:
+        value = float(getattr(item, attribute))
+        country_data[item.region].append(value)
 
 
     avg_attribute = {country: sum(values) / len(values) for country, values in country_data.items()}
 
-    if (asc == 'asc'):
+    if (order == 'asc'):
         sorted_avg_attribute = sorted(avg_attribute.items(), key=lambda x: x[1])
         print(f"\nAverage {attribute.replace('_', ' ')} from lowest to highest:")
         for country, avg_value in sorted_avg_attribute:
@@ -376,7 +376,7 @@ def filtered_entries(data, attribute, asc):
         for country, avg_value in sorted_avg_attribute:
             print(f"{country}: {avg_value:.2f}")
             
-def length_weight(data,attribute):
+def length_weight(data,attribute,sort_by='value'):
     grouped_data = defaultdict(list)
     
     for item in data:
@@ -385,10 +385,32 @@ def length_weight(data,attribute):
         grouped_data[key].append(value)
     
     group = {group: sum(value) / len(value) for group, value in grouped_data.items()}
-    
-    values = sorted(group.items(), key=lambda x: x[1], reverse=True)
+    values = {}
+    if sort_by == 'value':
+        values = sorted(group.items(), key=lambda x: x[1])
+    elif sort_by == 'group':
+        values = sorted(group.items(), key=lambda x: x[0])
     
     print(f"\nAverage Length/Weight grouped by {attribute.replace('_', ' ')}:")
     for group, avg_ratio in values:
         print(f"{group}: {avg_ratio:.4f}")
 
+
+
+def corelation_numpy(data, attribute1, attribute2):
+    data_a = [getattr(item, attribute1) for item in data]
+    data_b = [getattr(item, attribute2) for item in data]
+    
+    correlation_coefficient = np.corrcoef(data_a, data_b)[0, 1]
+    print(f"Correlation between {attribute1} and {attribute2}: {correlation_coefficient:.4f}")
+    # return correlation_coefficient
+
+# def corelation(data, attribute1, attribute2):
+    # data_a = [getattr(item, attribute1) for item in data]
+    # data_b = [getattr(item, attribute2) for item in data]
+              
+#     #mean = sum/len
+#     mean_a = sum(data_a)/len(data_a)
+#     mean_b = sum(data_b)/len(data_b)
+    
+    
