@@ -6,7 +6,7 @@ import os, argparse
 import library, view, analysis
 
 
-def main(auto=False):
+def main(auto=None):
     # Process user input
 
     # Options
@@ -18,6 +18,12 @@ def main(auto=False):
     data = None
     source_path = None
 
+    # Program running in non-interactive mode
+    if auto:
+        data = library.read_csv(auto)
+        analysis.generate_analysis(data, auto.split(os.sep)[-1])
+        exit(0)
+
     while True:
         # No data selected
         if not data:
@@ -27,14 +33,6 @@ def main(auto=False):
             # Check data exists in data folder
             if len(data_files) == 0:
                 print("Error: No files found in data/")
-                exit(0)
-
-            # Program running in non-interactive mode
-            if auto:
-                for d in data_files:
-                    source_path = os.path.join(data_dir, d)
-                    data = library.read_csv(source_path)
-                    analysis.generate_analysis(data, source_path.split(os.sep)[1])
                 exit(0)
 
             choice = view.select_option_or_quit(data_files, "FILES")
@@ -92,11 +90,22 @@ if __name__ == "__main__":
         description="Project 2: Analysis of Banana Quality Data"
     )
     parser.add_argument(
-        "-a",
         "--auto",
-        action="store_true",
-        help="run program without user interaction and output analysis for all datasets in data folder",
+        type=str,
+        help="run program without user interaction and output analysis for given dataset",
     )
     args = parser.parse_args()
+
+    # Open file
+    if args.auto:
+        try:
+            with open(args.auto, "r") as file:
+                pass
+        except FileNotFoundError:
+            print(f"Error: The file '{args.auto}' does not exist!")
+            exit(0)
+        if not args.auto.endswith(".csv"):
+            print("Error: File not valid.")
+            exit(0)
 
     main(args.auto)
