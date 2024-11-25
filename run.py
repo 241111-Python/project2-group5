@@ -2,10 +2,11 @@
 # Interactive Terminal
 
 # Imports
-import os
+import os, argparse
 import library, view, analysis
 
-def main():
+
+def main(auto=False):
     # Process user input
 
     # Options
@@ -28,6 +29,14 @@ def main():
                 print("Error: No files found in data/")
                 exit(0)
 
+            # Program running in non-interactive mode
+            if auto:
+                for d in data_files:
+                    source_path = os.path.join(data_dir, d)
+                    data = library.read_csv(source_path)
+                    analysis.generate_analysis(data, source_path.split(os.sep)[1])
+                exit(0)
+
             choice = view.select_option_or_quit(data_files, "FILES")
 
             # Verify file selected
@@ -45,25 +54,25 @@ def main():
 
         # Options menu
         options = [
-            f"Unload data: {source_file}",
-            "View individual entry",
+            f"Unload Data: {source_file}",
+            "View Entry",
             "View Sorted/Filtered Analysis",
             "View Comprehensive Analysis",
-            "Generate analysis report",
-            "View report"
+            "Generate Report",
+            "View Report",
         ]
         choice = view.select_option_or_quit(options, "OPTIONS")
 
         # Execute option
         match choice:
-            case 0: 
+            case 0:
                 data = None  # unload source
                 print("Unloaded source. Please select a new file.")
-            case 1: # Shows individual entries based off __str__ method @ Banana class
+            case 1:  # Shows individual entries based off __str__ method @ Banana class
                 view.show_entry(data)
-            case 2: # Shows filtered/sorted analysis
+            case 2:  # Shows filtered/sorted analysis
                 view.select_options_sorted(data)
-            case 3: # For the more advanced analysis 
+            case 3:  # For the more advanced analysis
                 pass
             case 4:
                 analysis.generate_analysis(data, source_file)
@@ -75,4 +84,16 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # Argument parsing
+    parser = argparse.ArgumentParser(
+        description="Project 2: Analysis of Banana Quality Data"
+    )
+    parser.add_argument(
+        "-a",
+        "--auto",
+        action="store_true",
+        help="run program without user interaction and output analysis for all datasets in data folder",
+    )
+    args = parser.parse_args()
+
+    main(args.auto)
