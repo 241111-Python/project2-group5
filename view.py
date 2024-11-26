@@ -139,6 +139,7 @@ def show_best_worst(data: list):
             print_entry(e)
 
 
+# Sorted bananas :) (Entire list)
 def select_options_sorted(data):
     """Displays the sorted choices for bananas.
 
@@ -192,26 +193,32 @@ def select_options_sorted(data):
         if choice == 'q':
             break
 
-def select_options_filtered(data):
-    """Displays the filtered and more advanced sorted choices for bananas.
+# Filtered bananas (only select few~!!)
+def select_options_filtered(data): 
+    """Displays the filtered choices for bananas.
 
     Args:
         data: current data source.
     """
     options = [
-        "Average quality of bananas",
-        "Average of ripe bananas", # Going to add category of ripeness to it soon
-        "Average of sweetest bananas",
-        "Average firmness of bananas",
-        "Average of the longest bananas"
+        "Average quality of bananas",           # 0
+        "Average ripesness of bananas",         # 1
+        "Average sweetness bananas",            # 2
+        "Average firmness of bananas",          # 3
+        "Average length of bananas",            # 4
+        "Average weight of bananas",            # 5
+        "Average age of bananas",               # 6
+        "Average altitude bananas grown",       # 7
+        "Average rainfall of country",          # 8
+        "Average nitrogen in soil"              # 9
     ]
     while True:
-        present_options(options, "SELECT FROM THE LIST OF SORTED ANALYSIS - ")
+        present_options(options, "SELECT FROM THE LIST OF FILTERED ANALYSIS - ")
         choice = int(input("\nSelect option, or type 'q' to go back: "))
         match choice:
-            case 0: # Quality
+            case 0: 
                 show_filtered_quality_entries(data)
-            case 1: # 
+            case 1: 
                 show_filtered_ripeness_entries(data)
             case 2:
                 show_filtered_sugar_entries(data)
@@ -220,17 +227,15 @@ def select_options_filtered(data):
             case 4:
                 show_filtered_length_entries(data)
             case 5:
-                pass
+                show_filtered_weight_entries(data)
             case 6:
-                pass
+                show_filtered_tree_age_years(data)
             case 7:
-                pass
+                show_filtered_altitude_m(data)
             case 8:
-                pass
+                show_filtered_rainfall_mm(data)
             case 9:
-                pass
-            case 10:
-                pass
+                show_filtered_soil_nitrogen_ppm(data)
             case _:
                 print(choice)     
                 pass
@@ -277,7 +282,7 @@ def convert_object_to_list(data): # Converts objects to List of dictionaries
 # SORTED SECTION START
 ################################################################################################################### 
 
-def show_highest_quality_entries(data): # Highest Quality
+def show_highest_quality_entries(data): # Highest Quality 0
     """Displays all entries based off the quality of banana.
 
     Args:
@@ -288,7 +293,7 @@ def show_highest_quality_entries(data): # Highest Quality
     print(tabulate(sortedQuality, headers="keys" , tablefmt="rounded_outline"))
 
 
-def show_highest_ripeness_entries(data): # Most Ripe
+def show_highest_ripeness_entries(data): # Most Ripe 1
     """Displays all entries based off the ripeness of banana .
 
     Args:
@@ -298,7 +303,7 @@ def show_highest_ripeness_entries(data): # Most Ripe
     sortedRipeness=sorted(dataList, key=lambda x: x["Ripeness Index"], reverse=True)
     print(tabulate(sortedRipeness, headers="keys" , tablefmt="rounded_outline"))
 
-def show_highest_sweetness_entries(data): # Sweetest
+def show_highest_sweetness_entries(data): # Sweetest 2
     """Displays all entries based off the ripeness of banana .
 
     Args:
@@ -309,7 +314,7 @@ def show_highest_sweetness_entries(data): # Sweetest
     print(tabulate(sortedSweetness, headers="keys" , tablefmt="rounded_outline"))
 
 
-def show_highest_firmness_entries(data): # Firmness
+def show_highest_firmness_entries(data): # Firmness 3
     """Displays all entries based off the firmness of banana.
 
     Args:
@@ -319,7 +324,7 @@ def show_highest_firmness_entries(data): # Firmness
     sortedFIrmness=sorted(dataList, key=lambda x: x["Firmness (kgf)"], reverse=True)
     print(tabulate(sortedFIrmness, headers="keys" , tablefmt="rounded_outline"))
 
-def show_highest_length_entries(data): # Longest
+def show_highest_length_entries(data): # Longest 4
     """Displays all entries based off the length of banana top to bottom.
 
     Args:
@@ -329,7 +334,7 @@ def show_highest_length_entries(data): # Longest
     sortedLength=sorted(dataList, key=lambda x: x["Length (cm)"], reverse=True)
     print(tabulate(sortedLength, headers="keys" , tablefmt="rounded_outline"))
 
-def show_highest_weight_entries(data): # Heaviest
+def show_highest_weight_entries(data): # Heaviest 5
     """Displays all entries based off the length of banana top to bottom.
 
     Args:
@@ -339,7 +344,7 @@ def show_highest_weight_entries(data): # Heaviest
     sortedWeight=sorted(dataList, key=lambda x: x["Weight (g)"], reverse=True)
     print(tabulate(sortedWeight, headers="keys" , tablefmt="rounded_outline"))
 
-def show_oldest_harvest_entries(data): # Heaviest
+def show_oldest_harvest_entries(data): # Heaviest 6
     """Displays all entries based off the length of banana top to bottom.
 
     Args:
@@ -349,7 +354,7 @@ def show_oldest_harvest_entries(data): # Heaviest
     sortedDate=sorted(dataList, key=lambda x: datetime.strptime(x["Harvest Date"], "%Y-%m-%d"))
     print(tabulate(sortedDate, headers="keys" , tablefmt="rounded_outline"))
 
-def show_oldest_age_entries(data): # oldest tree age
+def show_oldest_age_entries(data): # oldest tree age 7
     """Displays all entries based off the age of the banana tree top to bottom.
 
     Args:
@@ -359,7 +364,7 @@ def show_oldest_age_entries(data): # oldest tree age
     sortedAge=sorted(dataList, key=lambda x: x["Tree Age (years)"], reverse=True)
     print(tabulate(sortedAge, headers="keys" , tablefmt="rounded_outline"))
 
-def show_highest_altitude_entries(data): # highest altitude
+def show_highest_altitude_entries(data): # highest altitude 8
     """Displays all entries based off the altitude top to bottom.
 
     Args:
@@ -369,7 +374,7 @@ def show_highest_altitude_entries(data): # highest altitude
     sortedAltitude=sorted(dataList, key=lambda x: x["Altitude (m)"], reverse=True)
     print(tabulate(sortedAltitude, headers="keys" , tablefmt="rounded_outline"))
 
-def show_highest_rainfall_entries(data): # Most rainfall in region
+def show_highest_rainfall_entries(data): # Most rainfall in region 9
     """Displays all entries based off the rainfall from top to bottom.
 
     Args:
@@ -381,7 +386,7 @@ def show_highest_rainfall_entries(data): # Most rainfall in region
 
 
 
-def show_highest_nitrogen_entries(data): # Most Nitrogen in soil
+def show_highest_nitrogen_entries(data): # Most Nitrogen in soil 10
     """Displays all entries based off the nitrogen of soil top to bottom.
 
     Args:
@@ -414,7 +419,7 @@ def show_filtered_quality_entries(data):
     avg_quality={country: sum(qualities) / len(qualities) for country, qualities in country_data.items()}
     sortQuality=sorted(avg_quality.items(), key=lambda x: x[1], reverse=True)
 
-    print("\nAverage quality score from highest to lowest: ")
+    print("\nAverage quality score: ")
     print(tabulate(sortQuality, ["Country", "Quality Score"], tablefmt="rounded_outline"))
 
 def show_filtered_ripeness_entries(data):
@@ -430,7 +435,7 @@ def show_filtered_ripeness_entries(data):
 
     avg_ripeness_index={country: sum(ripeness) / len(ripeness) for country, ripeness in country_data.items()}
     sortRipeness=sorted(avg_ripeness_index.items(), key=lambda x: x[1], reverse=True)
-    print("\nAverage ripeness index from highest to lowest: ")   
+    print("\nAverage ripeness index: ")   
     print(tabulate(sortRipeness, ["Country", "Ripeness Index (brix)"], tablefmt="rounded_outline"))
 
 
@@ -447,7 +452,7 @@ def show_filtered_sugar_entries(data):
 
     avg_sugar={country: sum(sugar) / len(sugar) for country, sugar in country_data.items()}
     sortSugar=sorted(avg_sugar.items(), key=lambda x: x[1], reverse=True)
-    print("\nAverage sugar content from highest to lowest: ")
+    print("\nAverage sugar content: ")
     print(tabulate(sortSugar, ["Country", "Sugar Content (brix)"], tablefmt="rounded_outline"))
 
 
@@ -465,7 +470,7 @@ def show_filtered_firmness_entries(data):
     avg_firmness={country: sum(firmness) / len(firmness) for country, firmness in country_data.items()}
     sortFirmness=sorted(avg_firmness.items(), key=lambda x: x[1], reverse=True)
 
-    print("\nAverage firmness from highest to lowest: ")
+    print("\nAverage firmness: ")
     print(tabulate(sortFirmness, ["Country", "Firmness (kgf)"], tablefmt="rounded_outline"))
 
 
@@ -482,8 +487,95 @@ def show_filtered_length_entries(data):
 
     avg_length={country: sum(length) / len(length) for country, length in country_data.items()}
     sortLength=sorted(avg_length.items(), key=lambda x: x[1], reverse=True)
-    print("\nAverage length from highest to lowest: ")
+    print("\nAverage length: ")
     print(tabulate(sortLength, ["Country", "Length (cm)"], tablefmt="rounded_outline"))
+
+def show_filtered_weight_entries(data):
+    """Displays the length of banana based off the region from top to bottom.
+
+    Args:
+        data: current data source.
+    """
+    country_data=defaultdict(list)
+
+    for r in data:
+        country_data[r.region].append(float(r.weight_g))
+
+    avg_weight={country: sum(weight) / len(weight) for country, weight in country_data.items()}
+    sortLength=sorted(avg_weight.items(), key=lambda x: x[1], reverse=True)
+    print("\nAverage weight: ")
+    print(tabulate(sortLength, ["Country", "Weight (cm)"], tablefmt="rounded_outline"))
+
+def show_filtered_tree_age_years(data): # Vitali
+    """Displays the length of banana based off the region from top to bottom.
+
+    Args:
+        data: current data source.
+    """
+    country_data=defaultdict(list)
+
+    for r in data:
+        country_data[r.region].append(float(r.tree_age_years)) #
+
+    avg_age={country: sum(age) / len(age) for country, age in country_data.items()}
+    sortAge=sorted(avg_age.items(), key=lambda x: x[1], reverse=True)
+    print("\nAverage tree age in each country: ")
+    print(tabulate(sortAge, ["Country", "Age (years)"], tablefmt="rounded_outline"))
+
+        
+def show_filtered_altitude_m(data): #Vitali
+    """Displays the altitude of where banana was groun @ a region.
+
+    Args:
+        data: current data source.
+    """
+    country_data=defaultdict(list)
+
+    for r in data:
+        country_data[r.region].append(float(r.altitude_m)) #
+
+    avg_altitude={country: sum(altitude) / len(altitude) for country, altitude in country_data.items()}
+    sortAltitude=sorted(avg_altitude.items(), key=lambda x: x[1], reverse=True)
+    print("\nAverage altitude of bananas based off country: ")
+    print(tabulate(sortAltitude, ["Country", "Altitude (m)"], tablefmt="rounded_outline"))
+
+        
+def show_filtered_rainfall_mm(data): #Vitali
+    """Displays the level of rainfall at a region.
+
+    Args:
+        data: current data source.
+    """
+    country_data=defaultdict(list)
+
+    for r in data:
+        country_data[r.region].append(float(r.rainfall_mm)) #
+
+    avg_rainfall={country: sum(rainfall) / len(rainfall) for country, rainfall in country_data.items()}
+    sortRainfall=sorted(avg_rainfall.items(), key=lambda x: x[1], reverse=True)
+
+    print("\nAverage rainfall in a country: ")
+    print(tabulate(sortRainfall, ["Country", "Rainfall (mm)"], tablefmt="rounded_outline"))
+
+        
+def show_filtered_soil_nitrogen_ppm(data): # Vitali
+    """Displays the nitrogen in soil at a region.
+
+    Args:
+        data: current data source.
+    """
+    country_data=defaultdict(list)
+
+    for r in data:
+        country_data[r.region].append(float(r.soil_nitrogen_ppm)) #
+
+    avg_nitrogen={country: sum(nitrogen) / len(nitrogen) for country, nitrogen in country_data.items()}
+    
+    # Might change this, wanted to see instead of sorting we just make the table and leave as is :) - Alexi
+    nitrogenTable = [[country, nitrogen] for country, nitrogen in avg_nitrogen.items()]
+
+    print("\nAverage amount of nitrogen in soil in a country: ")
+    print(tabulate(nitrogenTable, ["Country", "Nitrogen (ppm)"], tablefmt="rounded_outline"))
 
 
 ################################################################################################################### 
@@ -495,81 +587,14 @@ def show_filtered_length_entries(data):
 # COMPREHENSIVE SECTION START
 ################################################################################################################### 
 
+# Need to add more here :( this place is LONELY - Alexi
 
 ################################################################################################################### 
 # COMPREHENSIVE SECTION END
 ################################################################################################################### 
  
-        
-def show_tree_age_years(data): # Vitali
-    """Displays the length of banana based off the region from top to bottom.
 
-    Args:
-        data: current data source.
-    """
-    country_data=defaultdict(list)
-
-    for r in data:
-        country_data[r.region].append(float(r.tree_age_years)) #
-
-    avg_length={country: sum(length) / len(length) for country, length in country_data.items()}
-
-    print("\nAverage length from highest to lowest: ")
-    for country, length in avg_length.items():
-        print(f"{country}: {length:.2f}")
-        
-def show_altitude_m(data): #Vitali
-    """Displays the length of banana based off the region from top to bottom.
-
-    Args:
-        data: current data source.
-    """
-    country_data=defaultdict(list)
-
-    for r in data:
-        country_data[r.region].append(float(r.altitude_m)) #
-
-    avg_length={country: sum(length) / len(length) for country, length in country_data.items()}
-
-    print("\nAverage length from highest to lowest: ")
-    for country, length in avg_length.items():
-        print(f"{country}: {length:.2f}")
-        
-        
-def show_rainfall_mm(data): #Vitali
-    """Displays the length of banana based off the region from top to bottom.
-
-    Args:
-        data: current data source.
-    """
-    country_data=defaultdict(list)
-
-    for r in data:
-        country_data[r.region].append(float(r.rainfall_mm)) #
-
-    avg_length={country: sum(length) / len(length) for country, length in country_data.items()}
-
-    print("\nAverage length from highest to lowest: ")
-    for country, length in avg_length.items():
-        print(f"{country}: {length:.2f}")
-        
-        
-def show_soil_nitrogen_ppm(data): # Vitali
-    """Displays the length of banana based off the region from top to bottom.
-
-    Args:
-        data: current data source.
-    """
-    country_data=defaultdict(list)
-
-    for r in data:
-        country_data[r.region].append(float(r.soil_nitrogen_ppm)) #
-
-    avg_length={country: sum(length) / len(length) for country, length in country_data.items()}
-
-    print("\nAverage length from highest to lowest: ")
-    for country, length in avg_length.items():
-        print(f"{country}: {length:.2f}")        
+#  Note I haven't read through this, I didn't see you write down you were doing filters on Google Doc - Alexi   
 
 def filtered_entries(data, attribute, order='asc'): #Vitali
 
@@ -616,7 +641,9 @@ def length_weight(data,attribute,sort_by='value'): #Vitali
     for group, avg_ratio in values:
         print(f"{group}: {avg_ratio:.4f}")
 
+#----------------------------------------------------------------------------------------- Refer to my comment @ the top
 
+# I am assuming this is for the correlation section of data :D - Alexi 
 
 def corelation_numpy(data, attribute1, attribute2): #Vitali
     data_a = [getattr(item, attribute1) for item in data]
