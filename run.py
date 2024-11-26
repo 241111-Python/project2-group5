@@ -23,7 +23,7 @@ def main(auto=None, g_flag=False):
     # Program running in non-interactive mode
     if auto:
         data = library.read_csv(auto)
-        analysis.generate_analysis(data, auto.split(os.sep)[-1])
+        analysis.generate_analysis(data, os.path.split(auto)[-1])
         exit(0)
 
     while True:
