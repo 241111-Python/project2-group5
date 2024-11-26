@@ -9,8 +9,8 @@ Setup project and virtual environment:
 
 ```
 git clone https://github.com/241111-Python/project2-group5.git
-python -m venv .venv
-source .venv/Scripts/activate
+python -m venv <venv>
+source <venv>/Scripts/activate # bin/activate for Linux 
 pip install -r requirements.txt
 ```
 
@@ -18,8 +18,14 @@ Run:
 
 `python run.py`
 
+Flags:
+
+`-g` : Enables generation of graphs to `figures/` when producing report.
+
+`--auto path/to/source.csv` : Runs on provided dataset in non-interactive mode and exports analysis to `reports/`.
+
 #### Known Issues
 
 Related Issue: [#125235](https://github.com/python/cpython/issues/125235)
 
-Currently there is a bug with Python 3.13 and the `tkinter` library that may prevent the analysis report generation from functioning. A pre-generated report is provided in the repository while this issue is being resolved.
+Currently there is a bug with Python 3.13 and the `tkinter` library that may prevent the analysis report generation from functioning. The user may run the program without the `-g` flag if this occurs. A pre-generated report is provided in the repository while this issue is being resolved.
