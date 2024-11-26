@@ -22,6 +22,14 @@ figures_folder = os.path.join(report_folder, "figures")
 
 
 def generate_ranking(f, data: list, indices: list, values: list):
+    """Generates a table ranking the dataset by a selected column.
+
+    Args:
+        f: file to write out to.
+        data: current data source.
+        indices: category or categories for table index.
+        values: columns to include, table is sorted by first value descending.
+    """
     # Sort data by desired group
     dataset = sorted(data, key=lambda x: [getattr(x, i) for i in indices])
 
@@ -55,10 +63,89 @@ def generate_ranking(f, data: list, indices: list, values: list):
     )
     mdprint("\n", file=f)
 
+    # Print best country for each variety
+    if indices == ["region", "variety"]:
+        var_set = set()
+        best_country_for_var = []
+
+        for r in ranking:
+            if r[0][1] not in var_set:
+                var_set.add(r[0][1])
+                best_country_for_var.append((r[0][1], r[0][0]))
+
+        mdprint("Best Country for each Variety\n", heading=3, file=f)
+        mdprint(
+            tabulate(
+                best_country_for_var,
+                headers=["Variety", "Best Country"],
+                tablefmt="github",
+            ),
+            file=f,
+        )
+        mdprint("\n", file=f)
+
+
+def generate_count(f, data: list):
+    """Generates a table with counts/percents for each category.
+
+    Args:
+        f: file to write out to.
+        data: current data source.
+    """
+    # Sort data by desired group
+    dataset = sorted(data, key=lambda x: getattr(x, "region"))
+
+    # Group data and get count
+    ranking = []
+    for key, group in groupby(dataset, key=lambda x: getattr(x, "region")):
+        # Calculate column value and append to current row
+        e = [key, 0, 0, 0, 0]
+
+        for b in group:
+            match b.quality_category:
+                case "Premium":
+                    e[1] += 1
+                case "Good":
+                    e[2] += 1
+                case "Processing":
+                    e[3] += 1
+                case "Unripe":
+                    e[4] += 1
+
+        ranking.append(e)
+
+    # Convert to percents
+    for r in ranking:
+        sum_b = sum(r[1:])
+        for i in range(4):
+            r[i + 1] = f"{round((r[i+1] / sum_b) * 100, 1)}%"
+
+    # Print ranking in markdown format
+    ranking.sort(key=lambda x: [x[1], x[2]], reverse=True)
+    mdprint(f"Percent of Quality Bananas for each Country\n", heading=3, file=f)
+    mdprint(
+        tabulate(
+            ranking,
+            headers=["Quality", "Premium", "Good", "Processing", "Unripe"],
+            tablefmt="github",
+        ),
+        file=f,
+    )
+    mdprint("\n", file=f)
+
 
 def generate_correlations(
     f, data: pd.DataFrame, figures: str, filter_by: tuple, graph: bool = False
 ):
+    """Generates a correlations table.
+
+    Args:
+        f: file to write out to.
+        data: current data source.
+        figures: path of where to output figures if graphing is enabling.
+        filter_by: tuple containing column and value to filter dataset by.
+        graph: option to output graphs.
+    """
     # Filter
     data = data.loc[data[filter_by[0]] == filter_by[1]]
 
@@ -79,7 +166,9 @@ def generate_correlations(
             figures, f"heatmap_{' '.join(filter_by).replace(' ', '_')}.png"
         )
         sns.heatmap(corr, annot=True, fmt=".2f", cbar=False)
-        plt.title(f"Correlations for {filter_by[0]}: {filter_by[1]} Bananas")
+        plt.title(
+            f"Correlations for {filter_by[0]}: {filter_by[1]} Bananas, n = {data.shape[0]}"
+        )
         plt.tight_layout()
         plt.savefig(graph_file_path)
         plt.close()
@@ -90,6 +179,13 @@ def generate_correlations(
 
 
 def generate_analysis(data: list, dataset_name: str, graph: bool = False):
+    """Generates analysis containing tables and graphs in markdown format.
+
+    Args:
+        data: current data source.
+        dataset_name: file name of dataset.
+        graph: option to output graphs.
+    """
     # Build paths
     new_report = os.path.join(report_folder, f"report_{dataset_name.split('.')[0]}.md")
     new_figs = os.path.join(figures_folder, f"figures_{dataset_name.split('.')[0]}")
@@ -135,7 +231,10 @@ def generate_analysis(data: list, dataset_name: str, graph: bool = False):
                 ],
             )
 
+        generate_count(f, data)
+
         # Section 2
+        mdprint("\n", file=f)
         mdprint(
             "Relationships Between Banana Characteristics and Environment\n\n",
             heading=2,
@@ -163,6 +262,8 @@ def generate_analysis(data: list, dataset_name: str, graph: bool = False):
 
 
 def display_report():
+    """Prints out selected report in the terminal."""
+
     # Check reports exist
     if not os.path.exists(report_folder):
         print("\nError: No reports exist.")
@@ -170,7 +271,11 @@ def display_report():
 
     while True:
         # List files from report directory
-        data_files = os.listdir(report_folder)
+        data_files = []
+        for file in os.listdir(report_folder):
+            p = os.path.join(report_folder, file)
+            if not os.path.isdir(p):
+                data_files.append(file)
 
         # Don't list options if only one report exists
         if len(data_files) == 0:

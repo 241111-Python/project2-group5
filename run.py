@@ -80,9 +80,9 @@ def main(auto=None, g_flag=False):
                 view.select_options_filtered(data)
             case 5: # For the more advanced analysis
                 view.select_options_comprehensive(data)
-            case 5: 
+            case 6: # Produce tables for loaded dataset
                 analysis.generate_analysis(data, source_file, g_flag)
-            case 6:
+            case 7: # View table files
                 analysis.display_report()
             case _:
                 # default
