@@ -685,31 +685,34 @@ def corelation_numpy(data, attribute1, attribute2): #Vitali
 
 
 def corelation_by_group(data, attribute1, attribute2, group_by):
+    #Create a dictionary 
     group_data = defaultdict(list)
+    #Group data by the value
     for item in data:
-        # print(item)
-        # key = getattr(item, attribute1)
-        # key2 = getattr(item, attribute2)
-
-        # key = list(getattr(item, attr) for attr in group_by)
         key = getattr(item, group_by)
-
         group_data[key].append(item)
-    # print(group_data)
-    # conclusions:
+        
+    # Counter:
     i = 1
+    #Annotation
     print(f"""\nCorrelation coefficient ranges from -1 to 1:
          1: Perfect positive correlation (as one variable increases, the other increases).
         -1: Perfect negative correlation (as one variable increases, the other decreases).
          0: No correlation (no discernible relationship between the variables).
     \nCorelation by {group_by}\n""")
+    
+    #Extract values
     for key, items in group_data.items():
+        
         data_a = [getattr(item, attribute1) for item in items]
         data_b = [getattr(item, attribute2) for item in items]
+        
         correlation_coefficient = np.corrcoef(data_a, data_b)[0, 1]
-        # print(f"Group by {group_by}: {key} ==> Correlation between {attribute1} and {attribute2}: {correlation_coefficient:.4f}")
+        
         print(f"{i}. {key} ==> Correlation between {attribute1.replace('_', ' ').capitalize()} and {attribute2.replace('_', ' ').capitalize()}: {correlation_coefficient:.4f}")
         i+=1
+        
+        #Conclusions based on correlation coefficient
         if correlation_coefficient > 0.7:
                 conclusion = "Strong positive correlation."
         elif 0.3 <= correlation_coefficient <= 0.7:
@@ -724,13 +727,6 @@ def corelation_by_group(data, attribute1, attribute2, group_by):
                 conclusion = "Strong negative correlation."
         else:
                 conclusion = "No discernible correlation."
-
         print(f"   Conclusion: {conclusion}\n")
 
-# def corelation(data, attribute1, attribute2):
-    # data_a = [getattr(item, attribute1) for item in data]
-    # data_b = [getattr(item, attribute2) for item in data]
 
-#     #mean = sum/len
-#     mean_a = sum(data_a)/len(data_a)
-#     mean_b = sum(data_b)/len(data_b)
