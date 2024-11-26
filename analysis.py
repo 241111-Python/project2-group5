@@ -8,8 +8,9 @@ from itertools import groupby  # , tee
 import statistics as stats
 from tabulate import tabulate
 import view
-import seaborn as sns
 import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
 import pandas as pd
 import datetime
 
@@ -134,6 +135,23 @@ def generate_count(f, data: list):
     mdprint("\n", file=f)
 
 
+def print_fig(f, plt, fig_path: str):
+    """Saves graph to figures folder.
+
+    Args:
+        f: file to write out to.
+        plt: plot.
+        fig_path: path of where to output figures.
+    """
+    plt.tight_layout()
+    plt.savefig(fig_path)
+    plt.close()
+    mdprint(
+        f"\n![title](/{fig_path})".replace("\\", "/"),
+        file=f,
+    )
+
+
 def generate_correlations(
     f, data: pd.DataFrame, figures: str, filter_by: tuple, graph: bool = False
 ):
@@ -169,13 +187,28 @@ def generate_correlations(
         plt.title(
             f"Correlations for {filter_by[0]}: {filter_by[1]} Bananas, n = {data.shape[0]}"
         )
-        plt.tight_layout()
-        plt.savefig(graph_file_path)
-        plt.close()
-        mdprint(
-            f"\n![title](/{graph_file_path})".replace("\\", "/"),
-            file=f,
-        )
+        print_fig(f, plt, graph_file_path)
+
+
+def generate_histogram(f, data: list, figures: str):
+    """Generates a histogram.
+
+    Args:
+        f: file to write out to.
+        data: current data source.
+        figures: path of where to output figures if graphing is enabling.
+    """
+
+    var = "Quality"
+    # Generate graph
+    graph_file_path = os.path.join(figures, f"hist_{var}.png")
+    x = np.array([getattr(b, "quality_score") for b in data])
+    # y = np.array([getattr(b, "quality_score") for b in data])
+    # colors = np.array([getattr(b, "variety") for b in data])
+    sns.histplot(x=x)
+    plt.title(f"{var} Distribution for Bananas, n = {len(data)}")
+    plt.xlabel(f"{var}")
+    print_fig(f, plt, graph_file_path)
 
 
 def generate_analysis(data: list, dataset_name: str, graph: bool = False):
@@ -216,6 +249,10 @@ def generate_analysis(data: list, dataset_name: str, graph: bool = False):
 
         # Section 1
         mdprint("Comparison of Bananas by Origin and Variety\n", heading=2, file=f)
+
+        if graph:
+            generate_histogram(f, data, new_figs)
+
         for i in [["variety"], ["region", "variety"]]:
             generate_ranking(
                 f,
@@ -254,6 +291,7 @@ def generate_analysis(data: list, dataset_name: str, graph: bool = False):
                 ],
             )
 
+        # Produce correlation tables / heatmaps
         df = pd.DataFrame([vars(d) for d in data])
         for v in df["variety"].unique():
             generate_correlations(f, df, new_figs, ("variety", v), graph)
