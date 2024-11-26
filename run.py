@@ -57,7 +57,8 @@ def main(auto=None, g_flag=False):
             f"Unload Data: {source_file}",
             "View Entry",
             "View Best / Worst Entries",
-            "View Sorted/Filtered Analysis",
+            "View Sorted Entries",
+            "View Filtered Entries",
             "View Comprehensive Analysis",
             "Generate Tables",
             "View Tables",
@@ -73,11 +74,13 @@ def main(auto=None, g_flag=False):
                 view.show_entry(data)
             case 2:  # Shows highest and lowest entries for a given attribute
                 view.show_best_worst(data)
-            case 3:  # Shows filtered/sorted analysis
+            case 3:  # Shows sorted analysis
                 view.select_options_sorted(data)
-            case 4:  # For the more advanced analysis
-                pass
-            case 5:
+            case 4:  # Shows filtered analysis
+                view.select_options_filtered(data)
+            case 5: # For the more advanced analysis
+                view.select_options_comprehensive(data)
+            case 5: 
                 analysis.generate_analysis(data, source_file, g_flag)
             case 6:
                 analysis.display_report()
