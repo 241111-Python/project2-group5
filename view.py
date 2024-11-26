@@ -686,12 +686,14 @@ def corelation_numpy(data, attribute1, attribute2): #Vitali
 
 def corelation_by_group(data, attribute1, attribute2, group_by):
     #Create a dictionary 
-    group_data = defaultdict(list)
+    if isinstance(data, list):
+        group_data = defaultdict(list)
     #Group data by the value
-    for item in data:
-        key = getattr(item, group_by)
-        group_data[key].append(item)
-        
+        for item in data:
+            key = getattr(item, group_by)
+            group_data[key].append(item)
+    else:
+        group_data = {getattr(item, group_by): item for item in data}
     # Counter:
     i = 1
     #Annotation
