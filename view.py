@@ -6,6 +6,7 @@ from tabulate import tabulate
 from datetime import datetime
 import numpy as np
 
+
 ################################################################################################################### 
 # MENU SECTION START
 ################################################################################################################### 
@@ -70,7 +71,8 @@ def print_entry(e):
     Args:
         e: Banana entry.
     """
-    print(f"\n{e.quality_category} quality {e.ripeness_category} {e.variety} from {e.region}:")
+    print(
+        f"\n{e.quality_category} quality {e.ripeness_category} {e.variety} from {e.region}:")
     print(e)
 
 
@@ -126,7 +128,8 @@ def show_best_worst(data: list):
 
         # Sort data on attribute
         attrb = attributes[int(selection)]
-        data_sorted = sorted(data, key=lambda x: getattr(x, attrb), reverse=True)
+        data_sorted = sorted(
+            data, key=lambda x: getattr(x, attrb), reverse=True)
 
         # Top 3
         print(f"---TOP 3: ({attrb})---")
@@ -211,6 +214,7 @@ def select_options_filtered(data):
         "Average altitude bananas grown",       # 7
         "Average rainfall of country",          # 8
         "Average nitrogen in soil"              # 9
+
     ]
     while True:
         present_options(options, "SELECT FROM THE LIST OF FILTERED ANALYSIS - ")
@@ -237,7 +241,7 @@ def select_options_filtered(data):
             case 9:
                 show_filtered_soil_nitrogen_ppm(data)
             case _:
-                print(choice)     
+                print(choice)
                 pass
 
         if choice == 'q':
@@ -411,27 +415,30 @@ def show_filtered_quality_entries(data):
     Args:
         data: current data source.
     """
-    country_data=defaultdict(list)
+    country_data = defaultdict(list)
 
     for r in data:
-        country_data[r.region].append(float(r.quality_score)) #
+        country_data[r.region].append(float(r.quality_score))
 
     avg_quality={country: sum(qualities) / len(qualities) for country, qualities in country_data.items()}
     sortQuality=sorted(avg_quality.items(), key=lambda x: x[1], reverse=True)
 
+
     print("\nAverage quality score: ")
     print(tabulate(sortQuality, ["Country", "Quality Score"], tablefmt="rounded_outline"))
 
+
 def show_filtered_ripeness_entries(data):
+
     """Displays the ripeness of banana based off the region from top to bottom.
 
     Args:
         data: current data source.
     """
-    country_data=defaultdict(list)
+    country_data = defaultdict(list)
 
     for r in data:
-        country_data[r.region].append(float(r.ripeness_index)) #
+        country_data[r.region].append(float(r.ripeness_index))
 
     avg_ripeness_index={country: sum(ripeness) / len(ripeness) for country, ripeness in country_data.items()}
     sortRipeness=sorted(avg_ripeness_index.items(), key=lambda x: x[1], reverse=True)
@@ -440,15 +447,17 @@ def show_filtered_ripeness_entries(data):
 
 
 def show_filtered_sugar_entries(data):
+
     """Displays the sugar content in of banana based off the region from top to bottom.
 
     Args:
         data: current data source.
     """
-    country_data=defaultdict(list)
+    country_data = defaultdict(list)
 
     for r in data:
-        country_data[r.region].append(float(r.sugar_content_brix)) #
+        country_data[r.region].append(float(r.sugar_content_brix))
+
 
     avg_sugar={country: sum(sugar) / len(sugar) for country, sugar in country_data.items()}
     sortSugar=sorted(avg_sugar.items(), key=lambda x: x[1], reverse=True)
@@ -457,15 +466,16 @@ def show_filtered_sugar_entries(data):
 
 
 def show_filtered_firmness_entries(data):
+
     """Displays the firmness of banana based off the region from top to bottom.
 
     Args:
         data: current data source.
     """
-    country_data=defaultdict(list)
+    country_data = defaultdict(list)
 
     for r in data:
-        country_data[r.region].append(float(r.firmness_kgf)) #
+        country_data[r.region].append(float(r.firmness_kgf))
 
     avg_firmness={country: sum(firmness) / len(firmness) for country, firmness in country_data.items()}
     sortFirmness=sorted(avg_firmness.items(), key=lambda x: x[1], reverse=True)
@@ -474,16 +484,20 @@ def show_filtered_firmness_entries(data):
     print(tabulate(sortFirmness, ["Country", "Firmness (kgf)"], tablefmt="rounded_outline"))
 
 
+
 def show_filtered_length_entries(data):
+
     """Displays the length of banana based off the region from top to bottom.
 
     Args:
         data: current data source.
     """
-    country_data=defaultdict(list)
+    country_data = defaultdict(list)
 
     for r in data:
         country_data[r.region].append(float(r.length_cm))
+
+
 
     avg_length={country: sum(length) / len(length) for country, length in country_data.items()}
     sortLength=sorted(avg_length.items(), key=lambda x: x[1], reverse=True)
@@ -492,6 +506,7 @@ def show_filtered_length_entries(data):
 
 def show_filtered_weight_entries(data):
     """Displays the length of banana based off the region from top to bottom.
+
 
     Args:
         data: current data source.
@@ -507,15 +522,17 @@ def show_filtered_weight_entries(data):
     print(tabulate(sortLength, ["Country", "Weight (cm)"], tablefmt="rounded_outline"))
 
 def show_filtered_tree_age_years(data): # Vitali
+
     """Displays the length of banana based off the region from top to bottom.
 
     Args:
         data: current data source.
     """
-    country_data=defaultdict(list)
+    country_data = defaultdict(list)
 
     for r in data:
-        country_data[r.region].append(float(r.tree_age_years)) #
+        country_data[r.region].append(float(r.tree_age_years))
+
 
     avg_age={country: sum(age) / len(age) for country, age in country_data.items()}
     sortAge=sorted(avg_age.items(), key=lambda x: x[1], reverse=True)
@@ -529,10 +546,11 @@ def show_filtered_altitude_m(data): #Vitali
     Args:
         data: current data source.
     """
-    country_data=defaultdict(list)
+    country_data = defaultdict(list)
 
     for r in data:
-        country_data[r.region].append(float(r.altitude_m)) #
+        country_data[r.region].append(float(r.altitude_m))
+
 
     avg_altitude={country: sum(altitude) / len(altitude) for country, altitude in country_data.items()}
     sortAltitude=sorted(avg_altitude.items(), key=lambda x: x[1], reverse=True)
@@ -543,13 +561,15 @@ def show_filtered_altitude_m(data): #Vitali
 def show_filtered_rainfall_mm(data): #Vitali
     """Displays the level of rainfall at a region.
 
+
     Args:
         data: current data source.
     """
-    country_data=defaultdict(list)
+    country_data = defaultdict(list)
 
     for r in data:
-        country_data[r.region].append(float(r.rainfall_mm)) #
+        country_data[r.region].append(float(r.rainfall_mm))
+
 
     avg_rainfall={country: sum(rainfall) / len(rainfall) for country, rainfall in country_data.items()}
     sortRainfall=sorted(avg_rainfall.items(), key=lambda x: x[1], reverse=True)
@@ -564,10 +584,11 @@ def show_filtered_soil_nitrogen_ppm(data): # Vitali
     Args:
         data: current data source.
     """
-    country_data=defaultdict(list)
+    country_data = defaultdict(list)
 
     for r in data:
-        country_data[r.region].append(float(r.soil_nitrogen_ppm)) #
+        country_data[r.region].append(float(r.soil_nitrogen_ppm))
+
 
     avg_nitrogen={country: sum(nitrogen) / len(nitrogen) for country, nitrogen in country_data.items()}
     
@@ -596,9 +617,11 @@ def show_filtered_soil_nitrogen_ppm(data): # Vitali
 
 #  Note I haven't read through this, I didn't see you write down you were doing filters on Google Doc - Alexi   
 
+
 def filtered_entries(data, attribute, order='asc'): #Vitali
 
-    invalid_attributes = {"quality_category", "harvest_date", "ripeness_category", "variety"}
+    invalid_attributes = {"quality_category",
+                          "harvest_date", "ripeness_category", "variety"}
     if attribute in invalid_attributes:
         print(f"Invalid attribute '{attribute}'.")
         return
@@ -608,57 +631,106 @@ def filtered_entries(data, attribute, order='asc'): #Vitali
         value = float(getattr(item, attribute))
         country_data[item.region].append(value)
 
-
-    avg_attribute = {country: sum(values) / len(values) for country, values in country_data.items()}
+    avg_attribute = {country: sum(values) / len(values)
+                     for country, values in country_data.items()}
 
     if (order == 'asc'):
-        sorted_avg_attribute = sorted(avg_attribute.items(), key=lambda x: x[1])
-        print(f"\nAverage {attribute.replace('_', ' ')} from lowest to highest:")
+        sorted_avg_attribute = sorted(
+            avg_attribute.items(), key=lambda x: x[1])
+        print(
+            f"\nAverage {attribute.replace('_', ' ').capitalize()} from lowest to highest:")
         for country, avg_value in sorted_avg_attribute:
             print(f"{country}: {avg_value:.2f}")
     else:
-        sorted_avg_attribute = sorted(avg_attribute.items(), key=lambda x: x[1], reverse=True)
-        print(f"\nAverage {attribute.replace('_', ' ')} from highest to lowest:")
+        sorted_avg_attribute = sorted(
+            avg_attribute.items(), key=lambda x: x[1], reverse=True)
+        print(
+            f"\nAverage {attribute.replace('_', ' ').capitalize()} from highest to lowest:")
         for country, avg_value in sorted_avg_attribute:
             print(f"{country}: {avg_value:.2f}")
+
             
 def length_weight(data,attribute,sort_by='value'): #Vitali
+
     grouped_data = defaultdict(list)
-    
+
     for item in data:
-        key = getattr(item, attribute) 
-        value = item.length_cm / item.weight_g  
+        key = getattr(item, attribute)
+        value = item.length_cm / item.weight_g
         grouped_data[key].append(value)
-    
-    group = {group: sum(value) / len(value) for group, value in grouped_data.items()}
+
+    group = {group: sum(value) / len(value)
+             for group, value in grouped_data.items()}
     values = {}
     if sort_by == 'value':
         values = sorted(group.items(), key=lambda x: x[1])
     elif sort_by == 'group':
         values = sorted(group.items(), key=lambda x: x[0])
-    
+
     print(f"\nAverage Length/Weight grouped by {attribute.replace('_', ' ')}:")
     for group, avg_ratio in values:
         print(f"{group}: {avg_ratio:.4f}")
 
 #----------------------------------------------------------------------------------------- Refer to my comment @ the top
 
-# I am assuming this is for the correlation section of data :D - Alexi 
 
 def corelation_numpy(data, attribute1, attribute2): #Vitali
     data_a = [getattr(item, attribute1) for item in data]
     data_b = [getattr(item, attribute2) for item in data]
-    
+
     correlation_coefficient = np.corrcoef(data_a, data_b)[0, 1]
-    print(f"Correlation between {attribute1} and {attribute2}: {correlation_coefficient:.4f}")
+    print(
+        f"Correlation between {attribute1.replace('_', ' ')} and {attribute2.replace('_', ' ')}: {correlation_coefficient:.4f}")
     # return correlation_coefficient
+
+
+def corelation_by_group(data, attribute1, attribute2, group_by):
+    group_data = defaultdict(list)
+    for item in data:
+        # print(item)
+        # key = getattr(item, attribute1)
+        # key2 = getattr(item, attribute2)
+
+        # key = list(getattr(item, attr) for attr in group_by)
+        key = getattr(item, group_by)
+
+        group_data[key].append(item)
+    # print(group_data)
+    # conclusions:
+    i = 1
+    print(f"""\nCorrelation coefficient ranges from -1 to 1:
+         1: Perfect positive correlation (as one variable increases, the other increases).
+        -1: Perfect negative correlation (as one variable increases, the other decreases).
+         0: No correlation (no discernible relationship between the variables).
+    \nCorelation by {group_by}\n""")
+    for key, items in group_data.items():
+        data_a = [getattr(item, attribute1) for item in items]
+        data_b = [getattr(item, attribute2) for item in items]
+        correlation_coefficient = np.corrcoef(data_a, data_b)[0, 1]
+        # print(f"Group by {group_by}: {key} ==> Correlation between {attribute1} and {attribute2}: {correlation_coefficient:.4f}")
+        print(f"{i}. {key} ==> Correlation between {attribute1.replace('_', ' ').capitalize()} and {attribute2.replace('_', ' ').capitalize()}: {correlation_coefficient:.4f}")
+        i+=1
+        if correlation_coefficient > 0.7:
+                conclusion = "Strong positive correlation."
+        elif 0.3 <= correlation_coefficient <= 0.7:
+                conclusion = "Moderate positive correlation."
+        elif 0 <= correlation_coefficient < 0.3:
+                conclusion = "Weak positive correlation."
+        elif -0.3 <= correlation_coefficient < 0:
+                conclusion = "Weak negative correlation."
+        elif -0.7 <= correlation_coefficient < -0.3:
+                conclusion = "Moderate negative correlation."
+        elif correlation_coefficient < -0.7:
+                conclusion = "Strong negative correlation."
+        else:
+                conclusion = "No discernible correlation."
+
+        print(f"   Conclusion: {conclusion}\n")
 
 # def corelation(data, attribute1, attribute2):
     # data_a = [getattr(item, attribute1) for item in data]
     # data_b = [getattr(item, attribute2) for item in data]
-              
+
 #     #mean = sum/len
 #     mean_a = sum(data_a)/len(data_a)
 #     mean_b = sum(data_b)/len(data_b)
-    
-    
