@@ -2,21 +2,23 @@
 # Which can be viewed either in terminal or as a markdown file
 
 # Imports
-import os
+import os, sys
 from mdprint import mdprint
-from itertools import groupby, tee
+from itertools import groupby  # , tee
 import statistics as stats
 from tabulate import tabulate
 import view
 import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
+import datetime
 
-# Need to point to TCL due to current bug with Python 3.13
-os.environ["TCL_LIBRARY"] = r"C:\Program Files\Python313\tcl\tcl8.6"
+# May need to point to TCL due to current bug with Python 3.13
+if sys.version_info.minor == 13:
+    os.environ["TCL_LIBRARY"] = r"C:\Program Files\Python313\tcl\tcl8.6"
 
 report_folder = "reports"
-figures_folder = "figures"
+figures_folder = os.path.join(report_folder, "figures")
 
 
 def generate_ranking(f, data: list, indices: list, values: list):
@@ -27,7 +29,7 @@ def generate_ranking(f, data: list, indices: list, values: list):
     ranking = []
     for key, group in groupby(dataset, lambda x: [getattr(x, i) for i in indices]):
         # Ignore group if it makes up 1% of data or less
-        iter_1, iter_2 = tee(group)
+        # iter_1, iter_2 = tee(group)
         # if (len(list(iter_1))) <= (len(data) * 0.01):
         #     continue
 
@@ -35,7 +37,7 @@ def generate_ranking(f, data: list, indices: list, values: list):
         entry = [key]
         columns = [[] for _ in range(len(values))]
 
-        for b in iter_2:
+        for b in group:
             for i, v in enumerate(values):
                 columns[i].append(getattr(b, v))
 
@@ -46,7 +48,7 @@ def generate_ranking(f, data: list, indices: list, values: list):
 
     # Print ranking in markdown format
     ranking.sort(key=lambda x: x[1], reverse=True)
-    mdprint(f"Ranking {indices} by {values[0]}\n", heading=3, file=f)
+    mdprint(f"Ranking {indices} by avg {values[0]}\n", heading=3, file=f)
     mdprint(
         tabulate(ranking, headers=["Type", *values], tablefmt="github"),
         file=f,
@@ -55,34 +57,39 @@ def generate_ranking(f, data: list, indices: list, values: list):
 
 
 def generate_correlations(
-    f, data: pd.DataFrame, figures: str, variety: str, region: str
+    f, data: pd.DataFrame, figures: str, filter_by: tuple, graph: bool = False
 ):
     # Filter
-    data = data.loc[data["variety"] == variety]
-    # data = data.loc[data['region'] == region]
+    data = data.loc[data[filter_by[0]] == filter_by[1]]
 
-    file_path = os.path.join(figures, f"heatmap_{variety.replace(" ", "_")}.png")
-
-    # Generate heatmap
+    # Get correlation table
     corr = data.corr(numeric_only=True)
-    sns.heatmap(corr, annot=True, fmt=".2f", cbar=False)
-    plt.title(f"Correlations for {variety} Bananas")
-    plt.tight_layout()
-    plt.savefig(file_path)
-    plt.close()
 
     # Generate basic markdown
     corr.columns = [col[:8] for col in corr.columns]
     mdprint("\n", file=f)
-    mdprint(f"Correlations for {variety} Bananas", heading=3, file=f)
-    mdprint(corr.round(2).to_markdown(), file=f)
     mdprint(
-        f"\n![title](..\\{file_path})".replace("\\", "/"),
-        file=f,
+        f"Correlations for Bananas of {filter_by[0]}: {filter_by[1]}", heading=3, file=f
     )
+    mdprint(corr.round(2).to_markdown(), file=f)
+
+    if graph:
+        # Generate heatmap
+        graph_file_path = os.path.join(
+            figures, f"heatmap_{' '.join(filter_by).replace(' ', '_')}.png"
+        )
+        sns.heatmap(corr, annot=True, fmt=".2f", cbar=False)
+        plt.title(f"Correlations for {filter_by[0]}: {filter_by[1]} Bananas")
+        plt.tight_layout()
+        plt.savefig(graph_file_path)
+        plt.close()
+        mdprint(
+            f"\n![title](/{graph_file_path})".replace("\\", "/"),
+            file=f,
+        )
 
 
-def generate_analysis(data: list, dataset_name):
+def generate_analysis(data: list, dataset_name: str, graph: bool = False):
     # Build paths
     new_report = os.path.join(report_folder, f"report_{dataset_name.split('.')[0]}.md")
     new_figs = os.path.join(figures_folder, f"figures_{dataset_name.split('.')[0]}")
@@ -101,56 +108,56 @@ def generate_analysis(data: list, dataset_name):
         print("Cleaning existing report.")
 
     # Print analysis to markdown file
-
     with open(new_report, "x") as f:
         # Title
         mdprint(
-            "Global Analysis of Banana Quality and Characteristics\n", heading=1, file=f
+            "Statistics for Banana Quality and Characteristics\n", heading=1, file=f
         )
 
+        # Date
+        now = datetime.datetime.now()
+        mdprint(f"Generated at {now.strftime('%H:%M:%S %Y-%m-%d')}\n", file=f)
+
         # Section 1
-        mdprint("Comparison of Bananas by Origin and Type\n", heading=2, file=f)
-        generate_ranking(
-            f,
-            data,
-            ["region", "variety"],
-            [
-                "quality_score",
-                "ripeness_index",
-                "sugar_content_brix",
-                "firmness_kgf",
-                "length_cm",
-                "weight_g",
-            ],
-        )
+        mdprint("Comparison of Bananas by Origin and Variety\n", heading=2, file=f)
+        for i in [["variety"], ["region", "variety"]]:
+            generate_ranking(
+                f,
+                data,
+                i,
+                [
+                    "quality_score",
+                    "ripeness_index",
+                    "sugar_content_brix",
+                    "firmness_kgf",
+                    "length_cm",
+                    "weight_g",
+                ],
+            )
 
         # Section 2
         mdprint(
-            "Relationship Between Environment and Banana Characteristics\n\n",
+            "Relationships Between Banana Characteristics and Environment\n\n",
             heading=2,
             file=f,
         )
-        generate_ranking(
-            f,
-            data,
-            ["region"],
-            ["altitude_m", "rainfall_mm", "soil_nitrogen_ppm", "tree_age_years"],
-        )
-        generate_ranking(
-            f,
-            data,
-            ["quality_category"],
-            [
-                "quality_score",
-                "altitude_m",
-                "rainfall_mm",
-                "soil_nitrogen_ppm",
-                "tree_age_years",
-            ],
-        )
+        for i in [["region"], ["quality_category"]]:
+            generate_ranking(
+                f,
+                data,
+                i,
+                [
+                    "quality_score",
+                    "altitude_m",
+                    "rainfall_mm",
+                    "soil_nitrogen_ppm",
+                    "tree_age_years",
+                ],
+            )
+
         df = pd.DataFrame([vars(d) for d in data])
         for v in df["variety"].unique():
-            generate_correlations(f, df, new_figs, v, None)
+            generate_correlations(f, df, new_figs, ("variety", v), graph)
 
     print(f"Report generated in {new_report}")
 

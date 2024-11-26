@@ -6,13 +6,15 @@ import os, argparse
 import library, view, analysis
 
 
-def main(auto=None):
+def main(auto=None, g_flag=False):
     # Process user input
 
     # Options
     # Select and read in the data file
     # View an individual entry
     # View a sorted or filtered set of data
+    # View in-terminal analysis
+    # Generate/view data tables
 
     data_dir = "data"
     data = None
@@ -55,10 +57,11 @@ def main(auto=None):
             f"Unload Data: {source_file}",
             "View Entry",
             "View Best / Worst Entries",
-            "View Sorted/Filtered Analysis",
+            "View Sorted Entries",
+            "View Filtered Entries",
             "View Comprehensive Analysis",
-            "Generate Report",
-            "View Report",
+            "Generate Tables",
+            "View Tables",
         ]
         choice = view.select_option_or_quit(options, "OPTIONS")
 
@@ -71,12 +74,14 @@ def main(auto=None):
                 view.show_entry(data)
             case 2:  # Shows highest and lowest entries for a given attribute
                 view.show_best_worst(data)
-            case 3:  # Shows filtered/sorted analysis
+            case 3:  # Shows sorted analysis
                 view.select_options_sorted(data)
-            case 4:  # For the more advanced analysis
-                pass
-            case 5:
-                analysis.generate_analysis(data, source_file)
+            case 4:  # Shows filtered analysis
+                view.select_options_filtered(data)
+            case 5: # For the more advanced analysis
+                view.select_options_comprehensive(data)
+            case 5: 
+                analysis.generate_analysis(data, source_file, g_flag)
             case 6:
                 analysis.display_report()
             case _:
@@ -94,6 +99,12 @@ if __name__ == "__main__":
         type=str,
         help="run program without user interaction and output analysis for given dataset",
     )
+    parser.add_argument(
+        "-g",
+        "--graph",
+        action="store_true",
+        help="enables generation of graphs",
+    )
     args = parser.parse_args()
 
     # Open file
@@ -108,4 +119,4 @@ if __name__ == "__main__":
             print("Error: File not valid.")
             exit(0)
 
-    main(args.auto)
+    main(args.auto, args.graph)
