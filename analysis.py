@@ -18,7 +18,7 @@ if sys.version_info.minor == 13:
     os.environ["TCL_LIBRARY"] = r"C:\Program Files\Python313\tcl\tcl8.6"
 
 report_folder = "reports"
-figures_folder = "figures"
+figures_folder = os.path.join(report_folder, "figures")
 
 
 def generate_ranking(f, data: list, indices: list, values: list):
@@ -76,7 +76,7 @@ def generate_correlations(
     if graph:
         # Generate heatmap
         graph_file_path = os.path.join(
-            figures, f"heatmap_{" ".join(filter_by).replace(" ", "_")}.png"
+            figures, f"heatmap_{' '.join(filter_by).replace(' ', '_')}.png"
         )
         sns.heatmap(corr, annot=True, fmt=".2f", cbar=False)
         plt.title(f"Correlations for {filter_by[0]}: {filter_by[1]} Bananas")
@@ -84,7 +84,7 @@ def generate_correlations(
         plt.savefig(graph_file_path)
         plt.close()
         mdprint(
-            f"\n![title](..\\{graph_file_path})".replace("\\", "/"),
+            f"\n![title](/{graph_file_path})".replace("\\", "/"),
             file=f,
         )
 
@@ -116,7 +116,7 @@ def generate_analysis(data: list, dataset_name: str, graph: bool = False):
 
         # Date
         now = datetime.datetime.now()
-        mdprint(f"Generated at {now.strftime("%H:%M:%S %Y-%m-%d")}\n", file=f)
+        mdprint(f"Generated at {now.strftime('%H:%M:%S %Y-%m-%d')}\n", file=f)
 
         # Section 1
         mdprint("Comparison of Bananas by Origin and Variety\n", heading=2, file=f)
