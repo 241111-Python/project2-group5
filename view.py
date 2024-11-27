@@ -4,7 +4,7 @@
 from collections import defaultdict
 from tabulate import tabulate
 from datetime import datetime
-import numpy as np4
+import numpy as np
 import re
 import matplotlib.pyplot as mplb
 
@@ -169,9 +169,11 @@ def select_options_sorted(data):
     while True:
         present_options(options, "SELECT FROM THE LIST OF SORTED ANALYSIS - ")
         try:
-            choice = int(input("\nSelect option, or type '-1' to go back: "))
+            choice = input("\nSelect option, or type '-1' to go back: ")
+            if(choice == 'q'):
+                break
             if(menu_range(choice, pattern)):
-                match choice:
+                match int(choice):
                     case 0: # 
                         show_highest_quality_entries(data)
                     case 1: # 
@@ -226,9 +228,11 @@ def select_options_filtered(data):
     while True:
         present_options(options, "SELECT FROM THE LIST OF FILTERED ANALYSIS - ")
         try: 
-            choice = int(input("\nSelect option, or type '-1' to go back: "))
+            choice = input("\nSelect option, or type 'q' to go back: ")
+            if(choice == 'q'):
+                break
             if(menu_range(choice, pattern)):
-                match choice:
+                match int(choice):
                     case 0: 
                         show_filtered_quality_entries(data)
                     case 1: 
@@ -257,19 +261,106 @@ def select_options_filtered(data):
         except ValueError as e:
             print(f"Invalid entry of input! \n{e}")
 
-def select_options_comprehensive(data):
-    # select_options_filtered(data): 
-    """Displays the filtered choices for bananas.
+def select_options_wowt_graph_comprehensive(data):
+    options = [
+        "Without Graph",
+        "With Graph"
+    ]
+    
+    pattern = r"^[0-1]$"
+    while True:
+        present_options(options, "SELECT FROM THE LIST")
+        try:
+            choice = input("\nSelect option, or type 'q' to go back: ")
+            if(choice == 'q'):
+                break
+            if(menu_range(choice, pattern)):
+                match int(choice):
+                    case 0: 
+                        select_options_comprehensive(data)
+                    case 1: 
+                        select_options_comprehensive_with_graph(data)
+                    case _:
+                        print(choice)
+                        pass
+            else:   
+                raise ValueError
+        except ValueError as e:
+            print(f"Invalid entry of input! \n{e}")
 
-    Args:
-        data: current data source.
-    """
-    # options = [
-    #     "",            # 0
-    #     "",            # 1
-    #     "",            # 2
-    #     ""             # 3
-    # ]
+
+def select_options_comprehensive(data):
+    options = [
+        "Size vs Ripeness",                            # 0
+        "Weight vs Ripeness",                          # 1
+        "Rainfall vs Quality",                         # 2
+        "Nitrogen in Soil vs Quality",                 # 3
+        "Sweetness vs Size",                           # 4
+    ]
+
+    pattern = r"^[0-4]$"
+    present_options(options, "SELECT FROM THE LIST OF COMPREHENSIVE ANALYSIS -")
+    while True:
+        try: 
+            choice = input("\nSelect option, or type 'q' to go back: ")
+            if(choice == 'q'):
+                break
+            if(menu_range(choice, pattern)):
+                match int(choice):
+                    case 0: 
+                        corelation_by_group(data, 'length_cm', 'ripeness_index', 'region')
+                    case 1: 
+                        corelation_by_group(data, 'weight_g', 'ripeness_index', 'region')
+                    case 2:
+                        corelation_by_group(data, 'rainfall_mm', 'quality_score', 'region')
+                    case 3:
+                        corelation_by_group(data, 'soil_nitrogen_ppm', 'quality_score', 'region')
+                    case 4:
+                        corelation_by_group(data, 'sugar_content_brix', 'length_cm', 'region')
+                    case _:
+                        print(choice)
+                        pass
+            else:
+                raise ValueError
+        except ValueError as e:
+            print(f"Invalid entry of input! \n{e}")
+
+def select_options_comprehensive_with_graph(data):
+    options = [
+        "Size vs Ripeness with Graph",                 # 0
+        "Weight vs Ripeness with Graph",               # 1
+        "Rainfall vs Quality with Graph",              # 2
+        "Nitrogen in Soil vs Quality with Graph"       # 3
+        "Sweetness vs Size with Graph"                 # 4                  
+    ]
+
+    pattern = r"^[0-4]$"
+    present_options(options, "SELECT FROM THE LIST OF COMPREHENSIVE ANALYSIS -")
+    while True:
+        try: 
+            choice = input("\nSelect option, or type 'q' to go back: ")
+            if(choice == 'q'):
+                break
+            if(menu_range(choice, pattern)):
+                match int(choice):
+                    case 0: 
+                        corelation_by_group_with_graph(data, 'length_cm', 'ripeness_index', 'region')
+                    case 1: 
+                        corelation_by_group_with_graph(data, 'weight_g', 'ripeness_index', 'region')
+                    case 2:
+                        corelation_by_group_with_graph(data, 'rainfall_mm', 'quality_score', 'region')
+                    case 3:
+                        corelation_by_group_with_graph(data, 'soil_nitrogen_ppm', 'quality_score', 'region')
+                    case 4:
+                        corelation_by_group_with_graph(data, 'sugar_content_brix', 'length_cm', 'region')
+                    case _:
+                        print(choice)
+                        pass
+            else:
+                raise ValueError
+        except ValueError as e:
+            print(f"Invalid entry of input! \n{e}")
+
 
 
 def convert_object_to_list(data): # Converts objects to List of dictionaries 
@@ -410,8 +501,6 @@ def show_highest_rainfall_entries(data): # Most rainfall in region 9
     sortedRainfall=sorted(dataList, key=lambda x: x["Rainfall (mm)"], reverse=True)
     print(tabulate(sortedRainfall, headers="keys" , tablefmt="rounded_outline"))
 
-
-
 def show_highest_nitrogen_entries(data): # Most Nitrogen in soil 10
     """Displays all entries based off the nitrogen of soil top to bottom.
 
@@ -425,7 +514,6 @@ def show_highest_nitrogen_entries(data): # Most Nitrogen in soil 10
 ################################################################################################################### 
 # SORTED SECTION END
 ################################################################################################################### 
-
 
 ################################################################################################################### 
 # FILTERED SECTION START
@@ -583,7 +671,6 @@ def show_filtered_altitude_m(data): #Vitali
 def show_filtered_rainfall_mm(data): #Vitali
     """Displays the level of rainfall at a region.
 
-
     Args:
         data: current data source.
     """
@@ -611,7 +698,6 @@ def show_filtered_soil_nitrogen_ppm(data): # Vitali
     for r in data:
         country_data[r.region].append(float(r.soil_nitrogen_ppm))
 
-
     avg_nitrogen={country: sum(nitrogen) / len(nitrogen) for country, nitrogen in country_data.items()}
     
     # Might change this, wanted to see instead of sorting we just make the table and leave as is :) - Alexi
@@ -619,7 +705,6 @@ def show_filtered_soil_nitrogen_ppm(data): # Vitali
 
     print("\nAverage amount of nitrogen in soil in a country: ")
     print(tabulate(nitrogenTable, ["Country", "Nitrogen (ppm)"], tablefmt="rounded_outline"))
-
 
 ################################################################################################################### 
 # FILTERED SECTION END
@@ -629,16 +714,6 @@ def show_filtered_soil_nitrogen_ppm(data): # Vitali
 ################################################################################################################### 
 # COMPREHENSIVE SECTION START
 ################################################################################################################### 
-
-# Need to add more here :( this place is LONELY - Alexi
-
-################################################################################################################### 
-# COMPREHENSIVE SECTION END
-################################################################################################################### 
- 
-
-#  Note I haven't read through this, I didn't see you write down you were doing filters on Google Doc - Alexi   
-
 
 def filtered_entries(data, attribute, order='asc'): #Vitali
 
@@ -692,8 +767,6 @@ def length_weight(data,attribute,sort_by='value'): #Vitali
     print(f"\nAverage Length/Weight grouped by {attribute.replace('_', ' ')}:")
     for group, avg_ratio in values:
         print(f"{group}: {avg_ratio:.4f}")
-
-#----------------------------------------------------------------------------------------- Refer to my comment @ the top
 
 
 def corelation_numpy(data, attribute1, attribute2): #Vitali
@@ -809,8 +882,12 @@ def corelation_by_group_with_graph(data, attribute1, attribute2, group_by):
         mplb.xlabel(attr1)
         mplb.ylabel(attr2)
                
-        a, b = np4.polyfit(data_a, data_b, 1)
+        a, b = np.polyfit(data_a, data_b, 1)
         mplb.plot(data_a, [a * x + b for x in data_a], color='crimson')
         
         mplb.grid(True)
         mplb.show()
+
+################################################################################################################### 
+# COMPREHENSIVE SECTION END
+################################################################################################################### 

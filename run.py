@@ -79,7 +79,7 @@ def main(auto=None, g_flag=False):
             case 4:  # Shows filtered analysis
                 view.select_options_filtered(data)
             case 5: # For the more advanced analysis
-                view.select_options_comprehensive(data)
+                view.select_options_wowt_graph_comprehensive(data)
             case 6: # Produce tables for loaded dataset
                 analysis.generate_analysis(data, source_file, g_flag)
             case 7: # View table files
