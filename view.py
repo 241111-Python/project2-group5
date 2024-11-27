@@ -4,7 +4,8 @@
 from collections import defaultdict
 from tabulate import tabulate
 from datetime import datetime
-import numpy as np
+import numpy as np4
+import re
 
 
 ################################################################################################################### 
@@ -163,38 +164,42 @@ def select_options_sorted(data):
         "Nitrogen in Soil"              # 10
     ]
 
+    pattern = r"^(?![0-9]$|10$).+"
     while True:
         present_options(options, "SELECT FROM THE LIST OF SORTED ANALYSIS - ")
-        choice = int(input("\nSelect option, or type 'q' to go back: "))
-        match choice:
-            case 0: # 
-                show_highest_quality_entries(data)
-            case 1: # 
-                show_highest_ripeness_entries(data)
-            case 2:
-                show_highest_sweetness_entries(data)
-            case 3:
-                show_highest_firmness_entries(data)
-            case 4:
-                show_highest_length_entries(data)
-            case 5:
-                show_highest_weight_entries(data)
-            case 6:
-                show_oldest_harvest_entries(data)
-            case 7:
-                show_oldest_age_entries(data)
-            case 8:
-                show_highest_altitude_entries(data)
-            case 9:
-                show_highest_rainfall_entries(data)
-            case 10:
-                show_highest_nitrogen_entries(data)
-            case _:
-                print(choice)     
-                pass
-
-        if choice == 'q':
-            break
+        try:
+            choice = int(input("\nSelect option, or type '-1' to go back: "))
+            if(menu_range(choice, pattern)):
+                match choice:
+                    case 0: # 
+                        show_highest_quality_entries(data)
+                    case 1: # 
+                        show_highest_ripeness_entries(data)
+                    case 2:
+                        show_highest_sweetness_entries(data)
+                    case 3:
+                        show_highest_firmness_entries(data)
+                    case 4:
+                        show_highest_length_entries(data)
+                    case 5:
+                        show_highest_weight_entries(data)
+                    case 6:
+                        show_oldest_harvest_entries(data)
+                    case 7:
+                        show_oldest_age_entries(data)
+                    case 8:
+                        show_highest_altitude_entries(data)
+                    case 9:
+                        show_highest_rainfall_entries(data)
+                    case 10:
+                        show_highest_nitrogen_entries(data)
+                    case _:
+                        print(choice)     
+                        pass
+            else:
+                raise ValueError
+        except ValueError as e:
+            print(f"Invalid entry of input! \n{e}")
 
 # Filtered bananas (only select few~!!)
 def select_options_filtered(data): 
@@ -216,37 +221,41 @@ def select_options_filtered(data):
         "Average nitrogen in soil"              # 9
 
     ]
+
+    pattern = r"^[0-9]$"
     while True:
         present_options(options, "SELECT FROM THE LIST OF FILTERED ANALYSIS - ")
-        choice = int(input("\nSelect option, or type 'q' to go back: "))
-        match choice:
-            case 0: 
-                show_filtered_quality_entries(data)
-            case 1: 
-                show_filtered_ripeness_entries(data)
-            case 2:
-                show_filtered_sugar_entries(data)
-            case 3:
-                show_filtered_firmness_entries(data)
-            case 4:
-                show_filtered_length_entries(data)
-            case 5:
-                show_filtered_weight_entries(data)
-            case 6:
-                show_filtered_tree_age_years(data)
-            case 7:
-                show_filtered_altitude_m(data)
-            case 8:
-                show_filtered_rainfall_mm(data)
-            case 9:
-                show_filtered_soil_nitrogen_ppm(data)
-            case _:
-                print(choice)
-                pass
-
-        if choice == 'q':
-            break
-
+        try: 
+            choice = int(input("\nSelect option, or type '-1' to go back: "))
+            if(menu_range(choice, pattern)):
+                match choice:
+                    case 0: 
+                        show_filtered_quality_entries(data)
+                    case 1: 
+                        show_filtered_ripeness_entries(data)
+                    case 2:
+                        show_filtered_sugar_entries(data)
+                    case 3:
+                        show_filtered_firmness_entries(data)
+                    case 4:
+                        show_filtered_length_entries(data)
+                    case 5:
+                        show_filtered_weight_entries(data)
+                    case 6:
+                        show_filtered_tree_age_years(data)
+                    case 7:
+                        show_filtered_altitude_m(data)
+                    case 8:
+                        show_filtered_rainfall_mm(data)
+                    case 9:
+                        show_filtered_soil_nitrogen_ppm(data)
+                    case _:
+                        print(choice)
+                        pass
+            else:
+                raise ValueError
+        except ValueError as e:
+            print(f"Invalid entry of input! \n{e}")
 
 def select_options_comprehensive(data):
     print("placeholder")
@@ -277,6 +286,8 @@ def convert_object_to_list(data): # Converts objects to List of dictionaries
 
     return dataList
 
+def menu_range(val, pattern):
+    return bool(re.match(pattern,value))
 
 ################################################################################################################### 
 # MENU SECTION END
