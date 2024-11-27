@@ -7,7 +7,7 @@ import pprint
 class Banana:
 
     def __init__(self, **kwargs):
-        self.sample= kwargs.get("sample_id")
+        self.sample = kwargs.get("sample_id")
         self.variety = kwargs.get("variety")
         self.region = kwargs.get("region")
         self.quality_score = float(kwargs.get("quality_score"))
