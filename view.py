@@ -87,7 +87,7 @@ def show_entry(data: list):
     while True:
         # Display data range and check user selection``
         selection = input(
-            f"\nSelect an entry from: 0 - {len(data) - 1}, or type 'q' to return to main options: "
+            f"\nSelect an entry from: 0 - {len(data) - 1}, or type 'q' to go back: "
         )
         if selection == "q":
             break
@@ -121,7 +121,7 @@ def show_best_worst(data: list):
         # Display possible attributes and check user selection
         present_options(attributes, "ATTRIBUTES")
         selection = input(
-            f"\nSelect an attribute from: 0 - {len(attributes)}, or type 'q' to return to main options: "
+            f"\nSelect an attribute from: 0 - {len(attributes)}, or type 'q' to go back: "
         )
         if selection == "q":
             break
@@ -169,7 +169,7 @@ def select_options_sorted(data):
     while True:
         present_options(options, "SELECT FROM THE LIST OF SORTED ANALYSIS - ")
         try:
-            choice = input("\nSelect option, or type '-1' to go back: ")
+            choice = input("\nSelect option, or type 'q' to go back: ")
             if(choice == 'q'):
                 break
             if(menu_range(choice, pattern)):

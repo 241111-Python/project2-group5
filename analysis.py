@@ -329,7 +329,7 @@ def display_report():
 
         # check user selection
         selection = input(
-            f"\nSelect an entry from: 0 - {len(data_files) - 1}, or type 'q' to return to main options: "
+            f"\nSelect an entry from: 0 - {len(data_files) - 1}, or type 'q' to go back: "
         )
         if selection == "q":
             break
