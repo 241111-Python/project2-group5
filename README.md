@@ -28,4 +28,4 @@ Flags:
 
 Related Issue: [#125235](https://github.com/python/cpython/issues/125235)
 
-Currently there is a bug with Python 3.13 and the `tkinter` library that may prevent the analysis report generation from functioning. The user may run the program without the `-g` flag if this occurs. A pre-generated report is provided in the repository while this issue is being resolved.
+Currently there is a bug with Python 3.13 and the `tkinter` library in Windows that may prevent graph generation from functioning. The user may run the program without the `-g` flag if this occurs. A pre-generated report with graphs is provided in the repository while this issue is being resolved.
