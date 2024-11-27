@@ -7,7 +7,7 @@ from mdprint import mdprint
 from itertools import groupby  # , tee
 import statistics as stats
 from tabulate import tabulate
-import view
+import app.view as view
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np

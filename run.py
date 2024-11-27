@@ -3,7 +3,7 @@
 
 # Imports
 import os, argparse
-import library, view, analysis
+import app.reader as reader, app.view as view, app.analysis as analysis
 
 
 def main(auto=None, g_flag=False):
@@ -22,7 +22,7 @@ def main(auto=None, g_flag=False):
 
     # Program running in non-interactive mode
     if auto:
-        data = library.read_csv(auto)
+        data = reader.read_csv(auto)
         analysis.generate_analysis(data, os.path.split(auto)[-1])
         exit(0)
 
@@ -49,7 +49,7 @@ def main(auto=None, g_flag=False):
                 continue
 
             # Read in data
-            data = library.read_csv(source_path)
+            data = reader.read_csv(source_path)
             source_file = source_path.split(os.sep)[1]
 
         # Options menu
@@ -78,11 +78,11 @@ def main(auto=None, g_flag=False):
                 view.select_options_sorted(data)
             case 4:  # Shows filtered analysis
                 view.select_options_filtered(data)
-            case 5: # For the more advanced analysis
+            case 5:  # For the more advanced analysis
                 view.select_options_wowt_graph_comprehensive(data)
-            case 6: # Produce tables for loaded dataset
+            case 6:  # Produce tables for loaded dataset
                 analysis.generate_analysis(data, source_file, g_flag)
-            case 7: # View table files
+            case 7:  # View table files
                 analysis.display_report()
             case _:
                 # default

@@ -22,4 +22,4 @@
 # 
 # m h  dom mon dow   command
 
-5 * * * * bash /mnt/c/Users/USERNAME/FOLDER/project2-group5/perform_run.sh
+5 * * * * cd /mnt/c/Users/USERNAME/FOLDER/project2-group5/ && bash perform_run.sh

@@ -1,8 +1,9 @@
-# Functionality for reading, parsing, and presenting data
+# Functionality for reading data from csv file
 
 # Imports
 import csv
-import model
+import app.model as model
+
 
 def read_csv(file_name):
     """Reads csv file and converts into a list of dictionaries, each representing an entry.
@@ -19,6 +20,6 @@ def read_csv(file_name):
     except Exception as e:
         print("Error:", e)
         return
-    
+
     # Convert data to list of Banana objects
     return [model.Banana(**b) for b in raw_data]
