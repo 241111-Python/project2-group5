@@ -799,7 +799,7 @@ def corelation_by_group_with_graph(data, attribute1, attribute2, group_by):
         mplb.xlabel(attr1)
         mplb.ylabel(attr2)
                
-        a, b = np.polyfit(data_a, data_b, 1)
+        a, b = np4.polyfit(data_a, data_b, 1)
         mplb.plot(data_a, [a * x + b for x in data_a], color='crimson')
         
         mplb.grid(True)
