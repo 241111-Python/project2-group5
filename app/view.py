@@ -94,7 +94,24 @@ def show_entry(data: list):
         if not process_input(selection, len(data)):
             continue
 
-        print_entry(data[int(selection)])
+        # Split object description into two tables for readability
+        e = data[int(selection)]
+        keys = list(convert_object_to_list([e])[0].keys())[:8]
+        print(
+            tabulate(
+                [list(convert_object_to_list([d])[0].values())[:8] for d in [e]],
+                headers=keys,
+                tablefmt="rounded_outline",
+            )
+        )
+        keys = list(convert_object_to_list([e])[0].keys())[8:]
+        print(
+            tabulate(
+                [list(convert_object_to_list([d])[0].values())[8:] for d in [e]],
+                headers=keys,
+                tablefmt="rounded_outline",
+            )
+        )
 
 
 def show_best_worst(data: list):
@@ -133,15 +150,25 @@ def show_best_worst(data: list):
         data_sorted = sorted(
             data, key=lambda x: getattr(x, attrb), reverse=True)
 
-        # Top 3
-        print(f"---TOP 3: ({attrb})---")
-        for e in data_sorted[:3]:
-            print_entry(e)
+        # Top 5
+        print(f"\n---TOP 5: ({attrb})---")
+        print(
+            tabulate(
+                [convert_object_to_list([d])[0] for d in data_sorted[:5]],
+                headers="keys",
+                tablefmt="rounded_outline",
+            )
+        )
 
-        # Worst 3
-        print(f"\n---BOTTOM 3: ({attrb})---")
-        for e in data_sorted[-3:]:
-            print_entry(e)
+        # Worst 5
+        print(f"\n---BOTTOM 5: ({attrb})---")
+        print(
+            tabulate(
+                [convert_object_to_list([d])[0] for d in data_sorted[-5:]],
+                headers="keys",
+                tablefmt="rounded_outline",
+            )
+        )
 
 
 # Sorted bananas :) (Entire list)
