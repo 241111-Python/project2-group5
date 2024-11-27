@@ -6,6 +6,7 @@ from tabulate import tabulate
 from datetime import datetime
 import numpy as np4
 import re
+import matplotlib.pyplot as mplb
 
 
 ################################################################################################################### 
@@ -752,4 +753,64 @@ def corelation_by_group(data, attribute1, attribute2, group_by):
                 conclusion = "No discernible correlation."
         print(f"   Conclusion: {conclusion}\n")
 
-
+def corelation_by_group_with_graph(data, attribute1, attribute2, group_by):
+    #Create a dictionary 
+    group_data = defaultdict(list)
+    #Group data by the value
+    for item in data:
+        key = getattr(item, group_by)
+        group_data[key].append(item)
+        
+    # Counter:
+    i = 1
+    #Annotation
+    print(f"""\nCorrelation coefficient ranges from -1 to 1:
+         1: Perfect positive correlation (as one variable increases, the other increases).
+        -1: Perfect negative correlation (as one variable increases, the other decreases).
+         0: No correlation (no discernible relationship between the variables).
+    \nCorelation by {group_by}\n""")
+    
+    attr1 = attribute1.replace('_', ' ').capitalize()
+    attr2 = attribute2.replace('_', ' ').capitalize()
+    
+    #Extract values
+    for key, items in group_data.items():
+        
+        data_a = [getattr(item, attribute1) for item in items]
+        data_b = [getattr(item, attribute2) for item in items]
+        
+        correlation_coefficient = np.corrcoef(data_a, data_b)[0, 1]
+        
+        print(f"{i}. {key} ==> Correlation between {attr1} and {attr2}: {correlation_coefficient:.4f}")
+        i+=1
+        
+        #Conclusions based on correlation coefficient
+        if correlation_coefficient > 0.7:
+                conclusion = "Strong positive correlation."
+        elif 0.3 <= correlation_coefficient <= 0.7:
+                conclusion = "Moderate positive correlation."
+        elif 0 <= correlation_coefficient < 0.3:
+                conclusion = "Weak positive correlation."
+        elif -0.3 <= correlation_coefficient < 0:
+                conclusion = "Weak negative correlation."
+        elif -0.7 <= correlation_coefficient < -0.3:
+                conclusion = "Moderate negative correlation."
+        elif correlation_coefficient < -0.7:
+                conclusion = "Strong negative correlation."
+        else:
+                conclusion = "No discernible correlation."
+        print(f"   Conclusion: {conclusion}\n")
+        
+        #Graphics
+        mplb.figure(figsize=(7, 5))
+        mplb.scatter(data_a, data_b)
+        mplb.title(f"{attr1} vs {attr2} grouped by {key}")
+        mplb.suptitle(conclusion)
+        mplb.xlabel(attr1)
+        mplb.ylabel(attr2)
+               
+        a, b = np4.polyfit(data_a, data_b, 1)
+        mplb.plot(data_a, [a * x + b for x in data_a], color='crimson')
+        
+        mplb.grid(True)
+        mplb.show()
