@@ -213,7 +213,7 @@ def select_options_filtered(data):
     """
     options = [
         "Average quality of bananas",           # 0
-        "Average ripesness of bananas",         # 1
+        "Average ripeness of bananas",         # 1
         "Average sweetness bananas",            # 2
         "Average firmness of bananas",          # 3
         "Average length of bananas",            # 4
@@ -330,7 +330,7 @@ def select_options_comprehensive_with_graph(data):
         "Size vs Ripeness with Graph",                 # 0
         "Weight vs Ripeness with Graph",               # 1
         "Rainfall vs Quality with Graph",              # 2
-        "Nitrogen in Soil vs Quality with Graph"       # 3
+        "Nitrogen in Soil vs Quality with Graph",       # 3
         "Sweetness vs Size with Graph"                 # 4                  
     ]
 
