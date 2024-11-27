@@ -1,9 +1,11 @@
 # Statistics for Banana Quality and Characteristics
 
-Generated at 11:47:59 2024-11-26
+Generated at 14:10:49 2024-11-26
 
 ## Comparison of Bananas by Origin and Variety
 
+
+![title](/reports/figures/figures_banana_quality_dataset/hist_Quality.png)
 ### Ranking ['variety'] by avg quality_score
 
 | Type            |   quality_score |   ripeness_index |   sugar_content_brix |   firmness_kgf |   length_cm |   weight_g |
