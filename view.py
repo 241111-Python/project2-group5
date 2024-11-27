@@ -804,7 +804,7 @@ def corelation_by_group(data, attribute1, attribute2, group_by):
         data_a = [getattr(item, attribute1) for item in items]
         data_b = [getattr(item, attribute2) for item in items]
         
-        correlation_coefficient = np4.corrcoef(data_a, data_b)[0, 1]
+        correlation_coefficient = np.corrcoef(data_a, data_b)[0, 1]
         
         print(f"{i}. {key} ==> Correlation between {attribute1.replace('_', ' ').capitalize()} and {attribute2.replace('_', ' ').capitalize()}: {correlation_coefficient:.4f}")
         i+=1
@@ -852,7 +852,7 @@ def corelation_by_group_with_graph(data, attribute1, attribute2, group_by):
         data_a = [getattr(item, attribute1) for item in items]
         data_b = [getattr(item, attribute2) for item in items]
         
-        correlation_coefficient = np4.corrcoef(data_a, data_b)[0, 1]
+        correlation_coefficient = np.corrcoef(data_a, data_b)[0, 1]
         
         print(f"{i}. {key} ==> Correlation between {attr1} and {attr2}: {correlation_coefficient:.4f}")
         i+=1
