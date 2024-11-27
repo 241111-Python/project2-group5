@@ -12,4 +12,4 @@ fi
 
 # Generates analysis for given dataset
 source .env/bin/activate &&
-    python3 run.py --auto $DATASET
+    python3 run.py --auto "$DATASET"
