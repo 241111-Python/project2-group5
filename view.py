@@ -164,7 +164,7 @@ def select_options_sorted(data):
         "Nitrogen in Soil"              # 10
     ]
 
-    pattern = r"^(?![0-9]$|10$).+"
+    pattern =  r"^(10|[0-9])$"
     while True:
         present_options(options, "SELECT FROM THE LIST OF SORTED ANALYSIS - ")
         try:
@@ -219,7 +219,6 @@ def select_options_filtered(data):
         "Average altitude bananas grown",       # 7
         "Average rainfall of country",          # 8
         "Average nitrogen in soil"              # 9
-
     ]
 
     pattern = r"^[0-9]$"
@@ -258,7 +257,18 @@ def select_options_filtered(data):
             print(f"Invalid entry of input! \n{e}")
 
 def select_options_comprehensive(data):
-    print("placeholder")
+    # select_options_filtered(data): 
+    """Displays the filtered choices for bananas.
+
+    Args:
+        data: current data source.
+    """
+    # options = [
+    #     "",            # 0
+    #     "",            # 1
+    #     "",            # 2
+    #     ""             # 3
+    # ]
 
 
 def convert_object_to_list(data): # Converts objects to List of dictionaries 
@@ -286,8 +296,8 @@ def convert_object_to_list(data): # Converts objects to List of dictionaries
 
     return dataList
 
-def menu_range(val, pattern):
-    return bool(re.match(pattern,value))
+def menu_range(val, pattern):       
+    return bool(re.match(pattern,str(val)))
 
 ################################################################################################################### 
 # MENU SECTION END
