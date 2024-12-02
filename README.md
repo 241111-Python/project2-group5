@@ -2,7 +2,7 @@
 
 ## Overview: 
 
-An interactive Python project that analyzes a dataset of a sample of 1,000 bananas harvested from eight different countries across the world in 2023. The user can access statistics on an individual banana or a set of bananas filtered by selected criteria through a terminal-based interface. The program also generates a two-part report containing summary statistics and key facts about the data. The first section presents a comparison of bananas divided by origin and type. The second section investigates the relationship between a banana’s physical characteristics and environmental conditions, such as the level of rainfall it received.
+An interactive Python project that analyzes a dataset of a sample of 1,000 bananas harvested from eight different countries across the world in 2023. The user can access statistics on an individual banana sample or a set of bananas sorted by selected criteria through a terminal-based interface. Users can also view summary statistics and examine correlations between pertinent variables in the dataset, such as the relationship between a banana’s physical characteristics and the environmental conditions in which it grew. In addition, the program generates an extended Markdown-style external report with graphs and informational tables presenting a comparison of bananas by origin and type. 
 
 ## Usage
 Setup project and virtual environment:
