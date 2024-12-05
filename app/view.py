@@ -289,11 +289,14 @@ def select_options_filtered(data):
         except ValueError as e:
             print(f"Invalid entry of input! \n{e}")
 
-def select_options_wowt_graph_comprehensive(data):
+def select_options_wowt_graph_comprehensive(data, graph_enabled):
     options = [
         "Without Graph",
         "With Graph"
     ]
+
+    if not graph_enabled:
+        options.pop()
     
     pattern = r"^[0-1]$"
     while True:
@@ -307,7 +310,10 @@ def select_options_wowt_graph_comprehensive(data):
                     case 0: 
                         select_options_comprehensive(data)
                     case 1: 
-                        select_options_comprehensive_with_graph(data)
+                        if graph_enabled: 
+                            select_options_comprehensive_with_graph(data)
+                        else:
+                            raise ValueError
                     case _:
                         print(choice)
                         pass
@@ -391,9 +397,9 @@ def select_options_comprehensive_with_graph(data):
     """
     # print("Sorry, select_options_comprehensive_with_graph is doesn't work properly, please chose a different option.\n You can see the examples of graph in graphs_package")
     
-    if True:
-        print("Sorry, select_options_comprehensive_with_graph is doesn't work properly, please chose a different option.\nYou can see an examples of graph in graphs_package")
-        return select_options_wowt_graph_comprehensive(data)
+    #if True:
+    #    print("Sorry, select_options_comprehensive_with_graph is doesn't work properly, please chose a different option.\nYou can see an examples of graph in graphs_package")
+    #    return select_options_wowt_graph_comprehensive(data)
     
     attributes = [
         "quality_score",
@@ -957,7 +963,7 @@ def corelation_by_group_with_graph(data, attribute1, attribute2, group_by='regio
         
         correlation_coefficient = np.corrcoef(data_a, data_b)[0, 1]
         
-        print(f"{i}. {key} ==> Correlation between {attr1} and {attr2}: {correlation_coefficient:.4f}")
+        print(f"\n{i}. {key} ==> Correlation between {attr1} and {attr2}: {correlation_coefficient:.4f}")
         i+=1
         
         #Conclusions based on correlation coefficient
