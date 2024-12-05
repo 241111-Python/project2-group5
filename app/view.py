@@ -317,77 +317,140 @@ def select_options_wowt_graph_comprehensive(data):
 
 
 def select_options_comprehensive(data):
-    options = [
-        "Size vs Ripeness",                            # 0
-        "Weight vs Ripeness",                          # 1
-        "Rainfall vs Quality",                         # 2
-        "Nitrogen in Soil vs Quality",                 # 3
-        "Sweetness vs Size",                           # 4
-    ]
+    """Presents a comprehensive analysis selection menu and executes correlation analysis.
 
-    pattern = r"^[0-4]$"
-    present_options(options, "SELECT FROM THE LIST OF COMPREHENSIVE ANALYSIS -")
-    while True:
-        try: 
-            choice = input("\nSelect option, or type 'q' to go back: ")
-            if(choice == 'q'):
-                break
-            if(menu_range(choice, pattern)):
-                match int(choice):
-                    case 0: 
-                        corelation_by_group(data, 'length_cm', 'ripeness_index', 'region')
-                    case 1: 
-                        corelation_by_group(data, 'weight_g', 'ripeness_index', 'region')
-                    case 2:
-                        corelation_by_group(data, 'rainfall_mm', 'quality_score', 'region')
-                    case 3:
-                        corelation_by_group(data, 'soil_nitrogen_ppm', 'quality_score', 'region')
-                    case 4:
-                        corelation_by_group(data, 'sugar_content_brix', 'length_cm', 'region')
-                    case _:
-                        print(choice)
-                        pass
-            else:
-                raise ValueError
-        except ValueError as e:
-            print(f"Invalid entry of input! \n{e}")
+    Args:
+        data: The dataset to perform the analysis on.
+    """
+    attributes = {
+        "Quality score": "quality_score",
+        "Ripeness index": "ripeness_index",
+        "Sugar content brix": "sugar_content_brix",
+        "Firmness kgf": "firmness_kgf",
+        "Length cm": "length_cm",
+        "Weight g": "weight_g",
+        "Tree age years": "tree_age_years",
+        "Altitude m": "altitude_m",
+        "Rainfall mm": "rainfall_mm",
+        "Soil nitrogen ppm": "soil_nitrogen_ppm"
+    }
+
+    options = {
+        "Quality category": "quality_category",
+        "Region": "region",
+        "Ripeness category": "ripeness_category",
+        "Variety": "variety",
+        "Harvest date": "harvest_date"
+    }
+
+    def get_user_choice(prompt, mapping):
+        """Helper function to get a valid user choice."""
+        names_for_display = list(mapping.keys())
+        while True:
+            try:
+                print(prompt)
+                for i, name in enumerate(names_for_display):
+                    print(f"{i}). {name}")
+                selection = input("\nEnter your choice (or 'q' to quit): ").strip()
+                if selection.lower() == 'q':
+                    return None
+                selection = int(selection)
+                if 0 <= selection < len(names_for_display):
+                    return mapping[names_for_display[selection]]
+                else:
+                    print("Invalid selection. Please choose a valid option.")
+            except ValueError:
+                print("Invalid input. Please enter a number.")
+
+    print("\nSELECT FROM THE LIST OF COMPREHENSIVE ANALYSIS -")
+
+    attribute1 = get_user_choice("Select the first attribute for correlation:", attributes)
+    if not attribute1:
+        print("Returning to the previous menu.")
+        return
+
+    attribute2 = get_user_choice("Select the second attribute for correlation:", attributes)
+    if not attribute2:
+        print("Returning to the previous menu.")
+        return
+
+    group_by = get_user_choice("Select the option for grouping:", options)
+    if not group_by:
+        print("Returning to the previous menu.")
+        return
+
+    print(f"\nPerforming correlation analysis between '{attribute1}' and '{attribute2}' grouped by '{group_by}'...\n")
+    corelation_by_group(data, attribute1, attribute2, group_by)
 
 def select_options_comprehensive_with_graph(data):
+    """Presents a comprehensive analysis selection menu and executes correlation analysis.
+
+    Args:
+        data: The dataset to perform the analysis on.
+    """
+    # print("Sorry, select_options_comprehensive_with_graph is doesn't work properly, please chose a different option.\n You can see the examples of graph in graphs_package")
+    
+    if True:
+        print("Sorry, select_options_comprehensive_with_graph is doesn't work properly, please chose a different option.\nYou can see an examples of graph in graphs_package")
+        return select_options_wowt_graph_comprehensive(data)
+    
+    attributes = [
+        "quality_score",
+        "ripeness_index",
+        "sugar_content_brix",
+        "firmness_kgf",
+        "length_cm",
+        "weight_g",
+        "tree_age_years",
+        "altitude_m",
+        "rainfall_mm",
+        "soil_nitrogen_ppm"
+    ]
     options = [
-        "Size vs Ripeness with Graph",                 # 0
-        "Weight vs Ripeness with Graph",               # 1
-        "Rainfall vs Quality with Graph",              # 2
-        "Nitrogen in Soil vs Quality with Graph",       # 3
-        "Sweetness vs Size with Graph"                 # 4                  
+        "quality_category",  # 0
+        "region",            # 1
+        "ripeness_category", # 2
+        "variety",           # 3
+        "harvest_date",      # 4
     ]
 
-    pattern = r"^[0-4]$"
-    present_options(options, "SELECT FROM THE LIST OF COMPREHENSIVE ANALYSIS -")
-    while True:
-        try: 
-            choice = input("\nSelect option, or type 'q' to go back: ")
-            if(choice == 'q'):
-                break
-            if(menu_range(choice, pattern)):
-                match int(choice):
-                    case 0: 
-                        corelation_by_group_with_graph(data, 'length_cm', 'ripeness_index', 'region')
-                    case 1: 
-                        corelation_by_group_with_graph(data, 'weight_g', 'ripeness_index', 'region')
-                    case 2:
-                        corelation_by_group_with_graph(data, 'rainfall_mm', 'quality_score', 'region')
-                    case 3:
-                        corelation_by_group_with_graph(data, 'soil_nitrogen_ppm', 'quality_score', 'region')
-                    case 4:
-                        corelation_by_group_with_graph(data, 'sugar_content_brix', 'length_cm', 'region')
-                    case _:
-                        print(choice)
-                        pass
-            else:
-                raise ValueError
-        except ValueError as e:
-            print(f"Invalid entry of input! \n{e}")
+    def get_user_choice(prompt, choices):
+        """Helper function to get a valid user choice."""
+        while True:
+            try:
+                print(prompt)
+                for i, choice in enumerate(choices):
+                    print(f"{i}). {choice}")
+                selection = input("\nEnter your choice (or 'q' to quit): ").strip()
+                if selection.lower() == 'q':
+                    return None
+                selection = int(selection)
+                if 0 <= selection < len(choices):
+                    return choices[selection]
+                else:
+                    print("Invalid selection. Please choose a valid option.")
+            except ValueError:
+                print("Invalid input. Please enter a number.")
 
+    print("\nSELECT FROM THE LIST OF COMPREHENSIVE ANALYSIS -")
+    
+    attribute1 = get_user_choice("Select the first attribute for correlation:", attributes)
+    if not attribute1:
+        print("Returning to the previous menu.")
+        return
+
+    attribute2 = get_user_choice("Select the second attribute for correlation:", attributes)
+    if not attribute2:
+        print("Returning to the previous menu.")
+        return
+
+    group_by = get_user_choice("Select the option for grouping:", options)
+    if not group_by:
+        print("Returning to the previous menu.")
+        return
+
+    print(f"\nPerforming correlation analysis between '{attribute1}' and '{attribute2}' grouped by '{group_by}'...\n")
+    corelation_by_group_with_graph(data, attribute1, attribute2, group_by)
 
 
 def convert_object_to_list(data): # Converts objects to List of dictionaries 
@@ -806,7 +869,16 @@ def corelation_numpy(data, attribute1, attribute2): #Vitali
     # return correlation_coefficient
 
 
-def corelation_by_group(data, attribute1, attribute2, group_by):
+def corelation_by_group(data, attribute1, attribute2, group_by='region'):
+    """
+    Calculate and display correlation coefficients for groups in the data in a tabular format.
+    
+    Parameters:
+        data (list or iterable): The dataset, consisting of objects or records.
+        attribute1 (str): The first attribute for correlation calculation.
+        attribute2 (str): The second attribute for correlation calculation.
+        group_by (str): The attribute to group the data by.
+    """
     #Create a dictionary 
     if isinstance(data, list):
         group_data = defaultdict(list)
@@ -818,14 +890,10 @@ def corelation_by_group(data, attribute1, attribute2, group_by):
         group_data = {getattr(item, group_by): item for item in data}
     # Counter:
     i = 1
-    #Annotation
-    print(f"""\nCorrelation coefficient ranges from -1 to 1:
-         1: Perfect positive correlation (as one variable increases, the other increases).
-        -1: Perfect negative correlation (as one variable increases, the other decreases).
-         0: No correlation (no discernible relationship between the variables).
-    \nCorelation by {group_by}\n""")
-    
+    table_data = []
+    headers = ["#", f"{group_by.replace('_', ' ').capitalize()}", "Correlation Coefficient", "Conclusion"] 
     #Extract values
+       
     for key, items in group_data.items():
         
         data_a = [getattr(item, attribute1) for item in items]
@@ -833,8 +901,6 @@ def corelation_by_group(data, attribute1, attribute2, group_by):
         
         correlation_coefficient = np.corrcoef(data_a, data_b)[0, 1]
         
-        print(f"{i}. {key} ==> Correlation between {attribute1.replace('_', ' ').capitalize()} and {attribute2.replace('_', ' ').capitalize()}: {correlation_coefficient:.4f}")
-        i+=1
         
         #Conclusions based on correlation coefficient
         if correlation_coefficient > 0.7:
@@ -851,9 +917,18 @@ def corelation_by_group(data, attribute1, attribute2, group_by):
                 conclusion = "Strong negative correlation."
         else:
                 conclusion = "No discernible correlation."
-        print(f"   Conclusion: {conclusion}\n")
-
-def corelation_by_group_with_graph(data, attribute1, attribute2, group_by):
+        table_data.append([i, key, f"{correlation_coefficient:.4f}", conclusion])
+        i += 1
+    print(tabulate(table_data, headers=headers, tablefmt="rst"))
+# script_dir = os.path.dirname(os.path.abspath(__file__))
+def corelation_by_group_with_graph(data, attribute1, attribute2, group_by='region'):
+    
+    #directory
+    parent_directory = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    output_directory = os.path.join(parent_directory, "reports", "correlation_graph")
+    # output_directory = os.path.dirname(os.path.abspath(__file__))
+    os.makedirs(output_directory, exist_ok=True)
+    
     #Create a dictionary 
     group_data = defaultdict(list)
     #Group data by the value
@@ -900,20 +975,24 @@ def corelation_by_group_with_graph(data, attribute1, attribute2, group_by):
         else:
                 conclusion = "No discernible correlation."
         print(f"   Conclusion: {conclusion}\n")
-        
-        #Graphics
+        #create and publish graphics
         mplb.figure(figsize=(7, 5))
         mplb.scatter(data_a, data_b)
-        mplb.title(f"{attr1} vs {attr2} grouped by {key}")
+        mplb.title(f"{attribute1} vs {attribute2} grouped by {key}")
         mplb.suptitle(conclusion)
-        mplb.xlabel(attr1)
-        mplb.ylabel(attr2)
-               
+        mplb.xlabel(attribute1)
+        mplb.ylabel(attribute2)
+        
         a, b = np.polyfit(data_a, data_b, 1)
         mplb.plot(data_a, [a * x + b for x in data_a], color='crimson')
-        
         mplb.grid(True)
-        mplb.show()
+        
+        output_file = os.path.join(output_directory, f"correlation_{attribute1}_{attribute2}_{key}.png")
+        mplb.savefig(output_file, format="png", dpi=300)
+        print(f"Graph saved to {output_file}")
+
+        
+        mplb.clf()
 
 ################################################################################################################### 
 # COMPREHENSIVE SECTION END
